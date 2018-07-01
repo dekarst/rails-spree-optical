@@ -1,0 +1,48 @@
+<div class='header'>
+    <div class='container'>
+        <%= link_to image_tag(Spree::Config[:admin_interface_logo]), :root, class: 'logo' %>
+
+        <div class='qnav'>
+            <ul class='pull-right'>
+                <li><%= link_to 'Home', :root %></li>
+                <li><%= link_to 'Contact', main_app.new_contact_path %></li>
+                 <% if user_signed_in? %>
+                    <li><%= current_user.email %></li>
+                    <li><%= link_to 'Logout', main_app.destroy_user_session_path, method: :delete %></li>
+                <% else %>
+                    <li><%= link_to 'Login', main_app.new_user_session_path %></li>
+                    <li><%= link_to 'Sign up', main_app.new_user_registration_path %></li>
+                <% end %>
+            </ul>
+
+            <br class='clear'>
+
+            <%= render partial: 'shared/cart' %>
+        </div>
+
+        <div class='top-control'>
+            <div class='currencies-container'>
+                <label>Currencies: </label>
+                <select>
+                    <option>US dollar</option>
+                    <option>CA dollar</option>
+                    <option>EURO</option>
+                </select>
+            </div>
+
+            <div class='brands-container'>
+                <%= brand_select %>
+            </div>
+
+            <%= render 'shared/search' %>
+
+            <div class='language-select'>
+                <select name='countries' id='countries' style='width:60px;'>
+                    <option value='us' data-image='/images/msdropdown/icons/blank.gif' data-imagecss='flag us' data-title='United States' selected='selected'></option>
+                    <option value='es' data-image='/images/msdropdown/icons/blank.gif' data-imagecss='flag es' data-title='Spain'></option>
+                    <option value='fr' data-image='/images/msdropdown/icons/blank.gif' data-imagecss='flag fr' data-title='France'></option>
+                </select>
+            </div>
+        </div>
+    </div>
+</div>

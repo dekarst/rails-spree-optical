@@ -1,0 +1,46 @@
+<%= render partial: 'spree/admin/shared/user_tabs', locals: {current: 'Prescriptions'} %>
+
+<div id='new_prescription'></div>
+
+<% if @prescriptions.any? %>
+    <table class='index'>
+        <colgroup>
+            <col style='width: 85%' />
+            <col style='width: 15%' />
+        </colgroup>
+
+        <thead data-hook='prescriptions_header'>
+            <tr>
+                <th><%= Spree.t(:name) %></th>
+                <th class='actions'></th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <% @prescriptions.each do |prescription| %>
+                <% prescription = prescription.decorate %>
+                <tr id="<%= spree_dom_id prescription %>" data-hook='prescriptions_row' class="<%= cycle('odd', 'even')%>">
+                    <td><%= prescription.presentation %></td>
+                    <td class='actions'>
+                        <%= link_to_edit(prescription, no_text: true) %>
+                        &nbsp;
+                        <%= link_to_delete(prescription, no_text: true) %>
+                    </td>
+                </tr>
+            <% end %>
+        </tbody>
+    </table>
+<% else %>
+    <div class='alpha twelve columns no-objects-found'>
+        No Prescriptions found,
+        <%= link_to Spree.t(:add_one), spree.new_admin_product_prescription_path(@product) %>!
+    </div>
+<% end %>
+
+<% content_for :page_actions do %>
+    <ul class='inline-menu' data-hook='toolbar'>
+        <li id='new_var_link' data-hook>
+            <%= link_to_with_icon('icon-plus', Spree.t(:new_prescription), new_admin_product_prescription_url(@product), remote: :true, :'data-update' => 'new_prescription', class: 'button') %>
+        </li>
+    </ul>
+<% end %>

@@ -1,0 +1,131 @@
+<% @body_id = 'product-details' %>
+
+<% if @product.is_a?(ContactLens) %>
+    <%= render partial: 'contact_lens' %>
+<% else %>
+    <div class='contant_area' data-hook='product_show' itemscope itemtype='http://schema.org/Product'>
+        <div class='container row comonp'>
+            <div class='col8 col-tb-12 col-mbl-12' data-hook='product_left_part'>
+                <div id='product-images' class='product-views' data-hook='product_images'>
+                    <div class='row'>
+                        <div id='main-image' class='col12 product-img img-border positn'>
+                            <%= render partial: 'image' %>
+                        </div>
+                    </div>
+
+                    <div class='vsap'></div>
+
+                    <p class='p-black p-bold'>VIEWS</p>
+
+                    <div class='vsap2'></div>
+
+                    <div class='row'>
+                        <div class='row col7 col-tb-12 col-mbl-12 thumbnails-wrap'>
+                            <div id='thumbnails'></div>
+                        </div>
+
+                        <div class='row col5 col-tb-12 col-mbl-12'>
+                            <div class='col9 col-mbl-10'>
+                                <div class='button-email cntr'>
+                                    <%= link_to 'VIRTUAL TRY ON', 'javascript:void(0)', class: 'mail-button light-blue p-bold not-implemented', style: "padding:6px;" %>
+
+                                    <div class='vsap'></div>
+
+                                    <div data-hook='email-to-friend'></div>
+                                </div>
+                            </div>
+
+                            <div class='col3 col-mbl-2'>
+                                <div class='3dview'>
+                                    <%= link_to image_tag('/images/3dview.jpg', class: 'img-w'), 'javascript:void(0)', class: 'not-implemented' %>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class='vsap'></div>
+
+                    <%= render partial: 'properties' %>
+
+                    <div class='row'>
+                        <p class='p-black p-bold'>OTHER STYLES YOU'LL LOVE</p>
+
+                        <div class='vsap'></div>
+                        <div id='similar-products' class='row'>
+                            <%= render partial: 'related' %>
+
+                            <div class='vsap'></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class='col4 col-tb-12 col-mbl-12' data-hook='product_right_part'>
+                <div class='product-description' data-hook='product_right_part_wrap'>
+                    <div class='product-details' data-hook='product_description'>
+                        <p class='eye' itemprop='name'>
+                            <%= accurate_title %>
+                        </p>
+                        <div class='vsap'></div>
+
+                        <% if @product.retail_price_in(current_currency).money.money != 0 %>
+                            <p class='p-black p-bold'>Retail Price: <%= display_retail_price(@product) %></p><br>
+                        <% end %>
+                        <p class='p-blue p26 p-bold'><%= display_price(@product) %></p><br>
+                        <% if @product.retail_price_in(current_currency).money.money != 0 %>
+                            <p class='p-red p14 p-bold'>You save online: <%= display_saved_price(@product) %></p><br>
+                        <% end %>
+                        <p itemprop='description' data-hook='description'>
+                            <%= product_description(@product) rescue Spree.t(:product_has_no_description) %>
+                        </p>
+                    </div>
+
+                    <div class='vsap'></div>
+
+                    <%= render partial: 'rating' %>
+
+                    <div class='vsap'></div>
+
+                    <div class='bdrb'></div>
+                    <div class='vsap2'></div>
+
+                    <div class='your-order' data-hook='product_checkout'>
+                        <%# FIXME %>
+                        <% if @product.is_a?(Frame) and @product.colors.any? %>
+                            <div class='row'>
+                                <p class='p-black p-bold'>IN OTHER COLORS</p><br />
+
+                                <div class='vsap2'></div>
+
+                                <div id='product-colors'>
+                                    <% product.colors.each_with_index do |color, index| %>
+                                        <%# FIXME decorate on controller %>
+                                        <%= link_to color.decorate.display_color, '#', class: "color-w disable-unclick color1 #{'zoom-box' if index == 0}", title: color.name, data: {:'color-id' => color.id} %>
+                                        <%# FIXME remove! %>
+                                        <%#= link_to '', '#', class: "color-w disable-unclick color1 #{'zoom-box' if index == 0}", title: color.name, style: "background-color: #{color.color_code}", data: {:'color-id' => color.id} %>
+                                    <% end %>
+                                </div>
+                            </div>
+                        <% end %>
+
+                        <div id='cart-form' data-hook='cart_form'>
+                            <%= render partial: 'cart_form' %>
+                        </div>
+                    </div>
+
+                    <div data-hook='promotions'>
+                        <%= render partial: 'promotions' %>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <% if @product.is_a?(Frame) and @product.colors.any? %>
+        <%= content_for :javascript do %>
+            <script type='text/javascript'>
+                configure_product_color('<%= @product.permalink %>');
+            </script>
+        <% end %>
+    <% end %>
+<% end %>

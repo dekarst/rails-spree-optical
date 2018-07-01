@@ -1,0 +1,14 @@
+<%= render partial: 'spree/admin/shared/product_sub_menu' %>
+<%= render partial: 'spree/shared/error_messages', locals: {target: @lens_protection} %>
+
+<%= form_for [:admin, @lens_protection] do |f| %>
+    <fieldset data-hook='new_lens_protection'>
+        <legend align='center'><%= Spree.t(:new_lens_protection) %></legend>
+
+        <%= render partial: 'form', locals: {f: f} %>
+
+        <div class='filter-actions'>
+            <%= render partial: 'spree/admin/shared/new_resource_links' %>
+        </div>
+    </fieldset>
+<% end %>

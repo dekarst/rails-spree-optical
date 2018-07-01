@@ -1,0 +1,11 @@
+<% content_for :product_types_sub_menu do %>
+    <ul id='product_types_sub_nav' class='inline-menu'>
+        <%= tab :products, label: 'All Products', match_path: '/products' %>
+        <%= tab :frames, match_path: '/frames' %>
+        <%= tab :contact_lenses, match_path: '/contact_lenses' %>
+        <%= tab :lenses, match_path: '/lenses' %>
+        <%= tab :lens_thicknesses, match_path: '/lens_thicknesses' %>
+        <%= tab :lens_protections, match_path: '/lens_protections' %>
+        <%= tab :basic_products, match_path: '/basic_products' %>
+    </ul>
+<% end %>

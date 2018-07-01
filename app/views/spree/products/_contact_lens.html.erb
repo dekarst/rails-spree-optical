@@ -1,0 +1,197 @@
+<div class='contant_area' data-hook='product_show' itemscope itemtype='http://schema.org/Product'>
+    <div class='container row comonp'>
+        <div class='col6 col-tb-12 col-mbl-12' data-hook='product_left_part'>
+            <div id='product-images' class='product-views' data-hook='product_images'>
+                <div class='row'>
+                    <div id='main-image' class='col12 product-img img-border positn'>
+                        <%= render partial: 'image' %>
+                    </div>
+                </div>
+
+                <div class='vsap'></div>
+
+                <p class='p-black p-bold'>VIEWS</p>
+
+                <div class='vsap2'></div>
+
+                <div class='thumbnails-wrap'>
+                    <div id='thumbnails'></div>
+                </div>
+
+                <div class='vsap'></div>
+            </div>
+        </div>
+
+        <div class='col6 col-tb-12 col-mbl-12' data-hook='product_right_part'>
+            <div class='product-description' data-hook='product_right_part_wrap'>
+                <div class='product-details' data-hook='product_description'>
+                    <p class='eye' itemprop='name'>
+                        <%= accurate_title %>
+                    </p>
+                    <div class='vsap'></div>
+
+                    <% if @product.retail_price_in(current_currency).money.money != 0 %>
+                        <p class='p-black p-bold'>Retail Price: <%= display_retail_price(@product) %></p><br>
+                    <% end %>
+                    <p class='p-blue p26 p-bold'><%= display_price(@product) %></p><br>
+                    <% if @product.retail_price_in(current_currency).money.money != 0 %>
+                        <p class='p-red p14 p-bold'>You save online: <%= display_saved_price(@product) %></p><br>
+                    <% end %>
+                    <p itemprop='description' data-hook='description'>
+                        <%= product_description(@product) rescue Spree.t(:product_has_no_description) %>
+                    </p>
+                </div>
+
+                <div class='vsap'></div>
+
+                <%= render partial: 'rating' %>
+
+                <div class='vsap'></div>
+
+                <div class='social-bookmarking'>
+                    <div>
+                        <div class="fb-like" data-href="<%= request.original_url %>" data-layout="button_count" data-action="like" data-show-faces="true" data-share="false"></div>
+                        <a href="<%= request.original_url%>" class="twitter-share-button" style="width: 60px;" data-count="horizontal" data-via="funonrails">Tweet</a>
+                        <script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
+                        <a href="//www.pinterest.com/pin/create/button/?url=http%3A%2F%2F'<%= request.original_url%>'%2Fproducts  +%2F&media=http%3A%2F%2Fwww.want2scrap.com%2Fstore%2Fimages%2Fpinterest-logo.jpg&description=Ginghamgifts" data-pin-do="buttonPin" data-pin-config="above"><img src="//assets.pinterest.com/images/pidgets/pinit_fg_en_rect_gray_20.png" /></a>
+                    </div>
+                </div>
+
+                <div class='vsap'></div>
+
+                <div class='bdrb'></div>
+                <div class='vsap2'></div>
+
+                <div class='your-order' data-hook='product_checkout'>
+                    <%= form_for :order, url: spree.populate_orders_path do |f| %>
+                        <%= render partial: 'contact_lenses/options', locals: {f: f, contact_lens: @product} if @product.is_a?(ContactLens) %>
+
+                        <%= hidden_field 'variants', @product.master.id, value: 1 %>
+
+                        <div id='inside-product-cart-form' data-hook='inside_product_cart_form' itemprop='offers' itemscope itemtype='http://schema.org/Offer'>
+                            <% if @product.price_in(current_currency) and !@product.price.nil? %>
+                                <div data-hook='product_price' class="row columns five <% if !@product.has_variants? %> alpha <% else %> omega <% end %>">
+                                    <div class='col5'>
+                                        <div class='add-to-cart'>
+                                            <div class='row buttons'>
+                                                <div class='col12 col-tb-12 col-mbl-12'>
+                                                    <%= button_tag 'CHECK OUT', id: 'add-to-cart-button', class: 'getstarted-btn', type: :submit %>
+
+                                                    <div class='vsap'></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class='col6'>
+                                        <div id='product-price' class='p-blue p-bold' style='display:none'>
+                                            <span class='price selling' itemprop='price'>
+                                                <%= display_price(@product.master) %>
+                                            </span>
+                                            <span itemprop='priceCurrency' content="<%= @product.currency %>"></span>
+
+                                            <% if @product.master.in_stock? %>
+                                                <link itemprop='availability' href='http://schema.org/InStock' />
+                                            <% end %>
+                                        </div>
+                                    </div>
+                                </div>
+                            <% else %>
+                                <div id='product-price' class='p-red p-bold not-available'>
+                                    <span class='not-available'><%= Spree.t('product_not_available_in_this_currency') %></span>
+                                    <div class='vsap'></div>
+                                </div>
+                            <% end %>
+
+                            <div class='row'>
+                                <div class='col12 col-tb-12 col-mbl-12' id='wishlist_container'>
+                                    <%= render partial: 'wishlist' %>
+                                </div>
+                            </div>
+                        </div>
+                    <% end %>
+                </div>
+
+                <div data-hook='promotions'>
+                    <%= render partial: 'promotions' %>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class='container'>
+        <% if @product_properties.any? %>
+            <div class='row'>
+                <div class='col4 col-tb-4 col-mbl-12'>
+                    <div class='vsap2'></div>
+                    <div class='vsap2'></div>
+                    <div class='vsap2'></div>
+
+                    <div class='single-features'>
+                        <p class='p-bold p-black'>DETAILS</p><br>
+
+                        <% @product_properties.each do |product_property| %>
+                            <p><%= product_property.property.presentation %>:</p>
+                            <p class='p-bold p-blue'><%= product_property.value %></p><br>
+                        <% end %>
+                    </div>
+
+                    <div class='vsap'></div>
+                </div>
+            </div>
+        <% end %>
+
+        <div class='vsap'></div>
+
+        <div class='row' data-hook='product_properties'>
+            <p class='eye'>Key Features</p>
+            <div class='row'>
+                <div class='col4 col-tb-4 col-mbl-12'>
+                    <div class='single-features'>
+                        <div class='vsap'></div>
+                        <div class='vsap'></div>
+
+                        <p>PRODUCT ID:</p><p class='p-bold p-blue'><%= @product.id %></p><br>
+                        <% if @product.category? %>
+                            <p>PRODUCT TYPE:</p><p class='p-bold p-blue'><%= @product.category %></p><br>
+                        <% end %>
+                        <% if @product.brand? %>
+                            <p>BRAND:</p><p class='p-bold p-blue'><%= @product.brand %></p><br>
+                        <% end %>
+                        <% if @product.gender? %>
+                            <p>GENDER:</p><p class='p-bold p-blue'><%= @product.gender %></p><br>
+                        <% end %>
+                    </div>
+
+                    <div class='vsap'></div>
+                </div>
+
+                <div class='col8'>
+                    <div class='loves-glass'>
+                        <%= insert_banner_box(category: 'product_page', class: 'img-w') %>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class='vsap'></div>
+        <div class='vsap'></div>
+
+        <div class='row'>
+            <p class='p-black p-bold'>OTHER STYLES YOU'LL LOVE</p>
+
+            <div class='vsap'></div>
+            <div id='similar-products' class='row'>
+                <%= render partial: 'related' %>
+
+                <div class='vsap'></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<%= content_for :javascript do %>
+    <script type='text/javascript'>
+        load_product_thumbnails('<%= @product.permalink %>');
+    </script>
+<% end %>

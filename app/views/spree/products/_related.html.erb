@@ -1,0 +1,9 @@
+<% if @product.get_similar_products(3).any? %>
+    <% @product.get_similar_products(3).each do |similar_product| %>
+        <div class='col4 col-mbl-12'>
+            <div class='single-view img-border'>
+                <%= link_to details_image(similar_product, class: 'group4'), spree.product_path(similar_product) %>
+            </div>
+        </div>
+    <% end %>
+<% end %>

@@ -1,0 +1,18 @@
+<%= render partial: 'spree/admin/shared/product_sub_menu' %>
+
+<% content_for :page_title do %>
+    <%= Spree.t(:editing_prescription_lens_rule) %>
+<% end %>
+
+<% content_for :page_actions do %>
+    <li><%= button_link_to Spree.t(:back_prescription_lens_rules_list), admin_prescription_lens_rules_url, icon: 'icon-arrow-left'%></li>
+<% end %>
+
+<%= render partial: 'spree/shared/error_messages', locals: {target: @prescription_lens_rule} %>
+
+<%= nested_form_for [:admin, @prescription_lens_rule] do |f| %>
+    <fieldset class='no-border-top'>
+        <%= render partial: 'form', locals: {f: f} %>
+        <%= render partial: 'spree/admin/shared/edit_resource_links' %>
+    </fieldset>
+<% end %>

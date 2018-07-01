@@ -1,0 +1,39 @@
+<div class='container row forms'>
+    <div class='col-md-6 col-md-push-3'>
+        <div data-hook='billing_fieldset_wrapper'>
+            <div id='billing' class='row wellcome'>
+                <%= form.simple_fields_for :bill_address do |bill_form| %>
+                    <h3 class='light-blue'><%= Spree.t(:billing_address) %></h3>
+
+                    <%= render partial: 'spree/address/form', locals: {form: bill_form, address_type: 'billing', address: @order.bill_address} %>
+                <% end %>
+            </div>
+        </div>
+
+        <div class='vsap'></div>
+        <div class='vsap'></div>
+
+        <div data-hook='shipping_fieldset_wrapper'>
+            <div id='shipping' class='row wellcome'>
+                <%= form.simple_fields_for :ship_address do |ship_form| %>
+                    <h3 class='light-blue'><%= Spree.t(:shipping_address) %></h3>
+
+                    <p class='field checkbox' data-hook='use_billing'>
+                        <%= check_box_tag 'order[use_billing]', '1', @order.shipping_eq_billing_address? %>
+                        <%= label_tag :order_use_billing, Spree.t(:use_billing_address), id: 'use_billing' %>
+                    </p>
+
+                    <div class='inner'>
+                        <%= render partial: 'spree/address/form', locals: {form: ship_form, address_type: 'shipping', address: @order.ship_address} %>
+                    </div>
+                <% end %>
+            </div>
+        </div>
+
+        <hr class='clear' />
+
+        <div class='form-buttons text-center' data-hook='buttons'>
+            <%= submit_tag Spree.t(:save_and_continue), class: 'continue btn-ex-large btn-blue' %>
+        </div>
+    </div>
+</div>

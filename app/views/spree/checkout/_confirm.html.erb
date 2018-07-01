@@ -1,0 +1,17 @@
+<div class='container row forms'>
+    <div class='col-md-10 col-md-push-1'>
+        <fieldset id='order_details' data-hook>
+            <div class='clear'></div>
+            <h3 id='order-title' class='light-blue text-center'><%= Spree.t(@order.state, scope: :order_state).titleize %></h3>
+
+            <%= render partial: 'spree/shared/order_details', locals: {order: @order} %>
+        </fieldset>
+
+        <br />
+
+        <div class='form-buttons text-center' data-hook='buttons'>
+            <%= submit_tag Spree.t(:place_order), class: 'continue btn-ex-large btn-blue' %>
+            <script>Spree.disableSaveOnClick();</script>
+        </div>
+    </div>
+</div>

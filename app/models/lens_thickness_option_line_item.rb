@@ -1,0 +1,2 @@
+class LensThicknessOptionLineItem < NonBuyableLineItem
+end

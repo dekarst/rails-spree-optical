@@ -1,0 +1,39 @@
+<div data-hook='admin_frame_color_form_fields' class='label-block left twelve columns alpha'>
+    <div data-hook='frame_colors'>
+        <div class='field' data-hook='name'>
+            <%= f.label :name, Spree.t(:name) %>
+            <%= f.text_field :name, class: 'fullwidth' %>
+        </div>
+
+        <div class='field' data-hook='color_code'>
+            <%= f.label :color_code, Spree.t(:color_code) %>
+            <%= f.color_field :color_code, style: 'width: 30px !important; height: 30px !important' %>
+        </div>
+
+        <div class='left six columns alpha'>
+            <% if @frame_color.color_image? %>
+                <div class='align-center field checkbox'>
+                    <%= f.label Spree.t(:image) %><br>
+                    <%= image_tag(@frame_color.color_image_url) %>
+
+                    <label>
+                        <%= f.check_box :remove_color_image %> Remove Image
+                    </label>
+                </div>
+            <% end %>
+
+            <div class='field' data-hook='color_image'>
+                <%= f.label :color_image, Spree.t(:color_image) %>
+                <%= f.file_field :color_image, class: 'fullwidth' %>
+            </div>
+        </div>
+
+        <div class='left six columns alpha'>
+            <div class='field checkbox' data-hook='use_image'>
+                <label>
+                    <%= f.check_box :use_image %> <%= Spree.t(:use_image) %>
+                </label>
+            </div>
+        </div>
+    </div>
+</div>

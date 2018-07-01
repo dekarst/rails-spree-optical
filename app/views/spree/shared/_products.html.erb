@@ -1,0 +1,97 @@
+<%
+    paginated_products = @searcher.retrieve_products if params.key?(:keywords)
+    paginated_products ||= @products
+%>
+
+<% if products.empty? %>
+    <h6 class='search-results-title'>
+        <% if params.key?(:keywords) %>
+            No products found for <span class='light-blue'>"<%= params[:keywords] %>"</span>
+        <% else %>
+            <%= Spree.t(:no_products_found) %>
+        <% end %>
+    </h6>
+<% elsif params.key?(:keywords) %>
+    <h6 class='search-results-title'>
+        <%#= Spree.t(:search_results, keywords: h(params[:keywords])) %>
+        Search results for <span class='light-blue'>"<%= params[:keywords] %>"</span>
+    </h6>
+<% end %>
+
+<% if products.any? %>
+    <div id='products-list' class='row'>
+        <% products.each_with_index do |product, i| %>
+            <div class='glass-box col4 col-tb-12 col-mbl-12'>
+                <div id='product_<%= product.id %>' class="single-collect cntr positn <%= cycle("alpha", "secondary", "", "omega secondary", name: "classes") %>" data-hook='products_list_item' itemscope itemtype='http://schema.org/Product'>
+                    <%= product.decorate.gender %>
+
+                    <div class='vsap'></div>
+
+                    <div class='img-part'>
+                        <%= link_to small_image(product, itemprop: 'image'), product, itemprop: 'url' %>
+                    </div>
+
+                    <div class='vsap'></div>
+
+                    <p class='p-black p12 product-brand'><%= product.brand || "&nbsp".html_safe %></p><br>
+                    <p class='p12 product-name'><%= product.name %></p><br>
+
+                    <div class='vsap3'></div>
+
+                    <p class='p-black p11 price-color'><%= display_price(product) %></p>
+
+                    <%= link_to 'QUICK BUY', product, class: 'quick-btn' %>
+
+                    <div class='vsap2'></div>
+                </div>
+            </div>
+
+            <% if i == 5 %>
+                <div class='row'>
+                    <div class='col12  col-tb-12 col-mbl-12'>
+                        <div class='vsap'></div>
+
+                        <div class='ads'>
+                            <%= insert_banner_box(category: 'bottom', class: 'img-w') %>
+                        </div>
+
+                        <div class='vsap'></div>
+                    </div>
+                </div>
+            <% end %>
+        <% end %>
+
+        <% reset_cycle('classes') %>
+    </div>
+
+    <% if paginated_products.respond_to?(:num_pages) %>
+        <div class='text-center'>
+            <%= paginate paginated_products, frontend: true %>
+        </div>
+    <% end %>
+
+    <%# FIXME uncomment if pagination will be using ajax (incomplete) %>
+    <% if false %>
+    <div class='row'>
+        <div class='col4'>&nbsp</div>
+
+        <%= link_to '#', id: 'pagination-link', class: 'btn btn-default col4' do %>
+            Load More<br />
+            <i class='icon icon-angle-down'></i>
+        <% end %>
+
+        <div id='pagination-loading' class='btn btn-default col4' style='display:none'>
+            <i class='icon icon-spin icon-spinner'></i>
+        </div>
+    </div>
+
+    <div id='pagination-next-page' style='display:none'>TESTE</div>
+    <div class='pagination-page invisible'></div>
+
+    <%= content_for :javascript do %>
+        <script type='text/javascript'>
+            configure_product_loader();
+        </script>
+    <% end %>
+    <% end %>
+<% end %>

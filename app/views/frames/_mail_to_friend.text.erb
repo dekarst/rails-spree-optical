@@ -1,0 +1,16 @@
+<%= @mail.recipient_name %>,
+
+<%= Spree.t(:you_would_like_this_item, scope: :email_to_friend) %>
+
+  * <%= @object.name %>
+
+<% unless @mail.message.blank? -%>
+    <%= @mail.message %>
+<% end -%>
+
+<%= @mail.sender_name %>
+
+<%= Spree.t(:click_link_to_view, scope: :email_to_friend, name: @object.name) %>
+<%= spree.product_url(@object) %>
+
+<%= Spree.t(:visit_page, scope: :email_to_friend, url: spree.products_url) %>

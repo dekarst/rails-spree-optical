@@ -1,0 +1,11 @@
+<% @product_thumbnails.each do |i| %>
+    <div class='col4 col-mbl-12'>
+        <div class='single-view img-border tmb-<%= i.viewable.id %>'>
+            <%= link_to image_tag(i.attachment.url(:mini), class: 'group4'), i.attachment.url(:product), data: {large: i.attachment.url(:large)} %>
+        </div>
+    </div>
+
+    <div style='display:none'>
+        <%= link_to ' ', i.attachment.url(:large), data: {lightbox: 'product'} %>
+    </div>
+<% end %>

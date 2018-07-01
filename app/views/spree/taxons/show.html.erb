@@ -1,0 +1,31 @@
+<div class='collection'>
+    <p class='eye'><%= @taxon.name %></p> <p class='collect'>Collection</p>
+    <div class='vsap'></div>
+</div>
+
+<% content_for :sidebar do %>
+    <div id='taxon-sidebar' data-hook='taxon_sidebar_navigation'>
+        <%#= render partial: 'spree/shared/taxonomies' %>
+        <%= render partial: 'spree/shared/filters' if @taxon.children.empty? %>
+    </div>
+
+    <div class='sidebar-content'>
+        <%= raw @sidebar_page_content if @sidebar_page_content.present? %>
+    </div>
+<% end %>
+
+<div data-hook='taxon_products'>
+    <%= render partial: 'spree/shared/products', locals: {taxon: @taxon} %>
+</div>
+
+<% unless params[:keywords].present? %>
+    <div data-hook='taxon_children'>
+        <%= render partial: 'taxon', collection: @taxon.children %>
+    </div>
+<% end %>
+
+<%= content_for :javascript do %>
+    <script type='text/javascript'>
+        configure_taxon_collapse();
+    </script>
+<% end %>

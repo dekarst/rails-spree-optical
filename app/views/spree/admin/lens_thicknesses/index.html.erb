@@ -1,0 +1,52 @@
+<% content_for :page_title do %>
+    <%= Spree.t(:lens_thicknesses) %>
+<% end %>
+
+<% content_for :page_actions do %>
+    <li id='new_lens_thickness_link'>
+        <%= button_link_to Spree.t(:new_lens_thickness), new_admin_lens_thickness_url, {remote: true, icon: 'icon-plus', 'data-update' => 'new_lens_thickness', id: 'new_lens_thickness_link'} %>
+    </li>
+<% end %>
+
+<%= render partial: 'spree/admin/shared/product_sub_menu' %>
+<%= render partial: 'spree/admin/shared/product_types_sub_menu' %>
+
+<div id='new_lens_thickness'></div>
+
+<%= paginate @collection %>
+
+<% if @collection.any? %>
+    <table class='index' id='listing_lens_thicknesses' data-hook>
+        <colgroup>
+            <col style='width: 40%'>
+            <col style='width: 45%'>
+            <col style='width: 15%'>
+        </colgroup>
+        <thead>
+            <tr data-hook='listing_lens_thicknesses_header'>
+                <th><%= Spree.t(:name) %></th>
+                <th><%= Spree.t(:options) %></th>
+                <th class='actions'></th>
+            </tr>
+        </thead>
+        <tbody>
+            <% @lens_thicknesses.each do |lens_thickness| %>
+                <tr id='<%= spree_dom_id lens_thickness %>' data-hook='listing_lens_thicknesses_row' class='<%= cycle('odd', 'even')%>'>
+                    <td style='padding-left:1em'><%= lens_thickness.name %></td>
+                    <td><%= lens_thickness.options.map {|o| o.name}.join(', ') %></td>
+                    <td class='actions'>
+                        <%= link_to_edit(lens_thickness, no_text: true) %>
+                        <%= link_to_delete(lens_thickness, no_text: true) %>
+                    </td>
+                </tr>
+            <% end %>
+        </tbody>
+    </table>
+<% else %>
+    <div class='alpha twelve columns no-objects-found'>
+        <%= Spree.t(:no_resource_found, resource: I18n.t(:other, scope: 'activerecord.models.spree/product')) %>,
+        <%= link_to Spree.t(:add_one), spree.new_admin_product_path %>!
+    </div>
+<% end %>
+
+<%= paginate @collection %>

@@ -1,0 +1,41 @@
+<% filters = @taxon ? @taxon.applicable_filters : [Spree::Core::ProductFilters.all_taxons] %>
+
+<% unless filters.empty? %>
+    <h3 class='light-blue search-heading'>quick search</h3>
+
+    <%= form_tag '', method: :get, id: 'sidebar_products_search' do %>
+        <% params[:search] ||= {} %>
+        <%= hidden_field_tag 'per_page', params[:per_page] %>
+
+        <% filters.each_with_index do |filter, i| %>
+            <% labels = filter[:labels] || filter[:conds].map {|m, c| [m, m]} %>
+            <% next if labels.empty? %>
+
+            <div class='accordion-filters'>
+                <div class='vsap2'></div>
+                <div class='accord-head'>
+                    <%= link_to "#{filter[:name]}<span class='pull-right'>open</span>".html_safe, "#collapse_#{i}", class: 'p-black p11', data: {toggle: 'collapse'} %>
+                </div>
+
+                <%= content_tag :div, id: "collapse_#{i}", class: 'collapse row' do %>
+                    <div class='vsap3'></div>
+                    <ul>
+                        <% labels.each do |nm, val| %>
+                            <% label = "#{filter[:name]}_#{nm}".gsub(/\s+/, '_') %>
+                            <li class='col6'>
+                                <div class='roundedOne'>
+                                    <input type='checkbox' id="<%= label %>" name="search[<%= filter[:scope].to_s %>][]" value="<%= val %>" <%= params[:search][filter[:scope]] && params[:search][filter[:scope]].include?(val.to_s) ? 'checked' : '' %> onclick="$('#sidebar_products_search').submit()"/>
+                                    <label for="<%= label %>"></label>
+                                </div>
+                                <p><%= nm %></p>
+                            </li>
+                        <% end %>
+                    </ul>
+                    <div class='vsap'></div>
+                <% end %>
+            </div>
+        <% end %>
+
+        <%#= submit_tag 'SEARCH', class: 'search-btn light-blue accordion-search' %>
+    <% end %>
+<% end %>

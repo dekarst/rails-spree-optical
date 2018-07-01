@@ -1,0 +1,10 @@
+<%= render partial: 'spree/shared/error_messages', locals: {target: @prescription} %>
+
+<%= form_for [:admin, @product, @prescription] do |f| %>
+    <fieldset data-hook='admin_prescription_new_form'>
+        <legend align='center'><%= Spree.t(:new_prescription) %></legend>
+
+        <%= render partial: 'form', locals: {f: f} %>
+        <%= render partial: 'spree/admin/shared/new_resource_links' %>
+    </fieldset>
+<% end %>

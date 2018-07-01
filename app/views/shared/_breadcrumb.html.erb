@@ -1,0 +1,29 @@
+<% if @product.present? %>
+    <div class='vsap'></div>
+
+    <div class='home_area'>
+        <div class='row container '>
+            <div class='col12 col-tb-12 col-mbl-12'>
+                <div class='home contant_bg'>
+                    <div class='home_nav'>
+                        <ul>
+                            <li><%= link_to image_tag('/images/logo_home.png'), :root %></li>
+
+                            <% if @product.category? %>
+                                <li><%= link_to @product.category, seo_url(@product.tx_category) %></li>
+                            <% end %>
+                            <% if @product.gender? %>
+                                <li><%= link_to @product.gender, seo_url(@product.tx_gender) %></li>
+                            <% end %>
+                            <% if @product.brand? %>
+                                <li><%= link_to @product.brand, seo_url(@product.tx_brand) %></li>
+                            <% end %>
+
+                            <li><%= link_to @product.name, @product %></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+<% end %>

@@ -1,0 +1,161 @@
+<div class='vsap'></div>
+
+<div class='brand-navigetion_area brand_hozontal_bg disply-none'>
+    <div class='container row'>
+        <div class='col12'>
+            <div class='brand_name'>
+                <div class='col4 brand-Txt'>
+                     <p class='first-part'>THE</p>&nbsp;&nbsp;&nbsp;<p class='last-part'>BEST BRANDS</p>
+                </div>
+
+                <div class='col8'>
+                    <ul>
+                        <li><%= image_tag '/assets/brand-locasti.png' %></li>
+                        <li class='brand-margin'><%= image_tag '/assets/brand-burbary.png' %></li>
+                        <li><%= image_tag '/assets/brand-rayben.png' %></li>
+                        <li class='brand-margin'><%= image_tag '/assets/brand-kate.png' %></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class='brand_vertical_area tttt'>
+    <div class='row brand_vertical_bg cntr'>
+        <div class='vsap'></div>
+
+        <div class='col12'>
+            <p>THE</p>&nbsp;<p class='last'>BEST BRANDS</p>
+        </div>
+
+        <div class='col12'>
+            <div class='vsap'></div>
+            <%= image_tag '/assets/brand-locasti.png' %>
+            <div class='vsap'></div>
+            <%= image_tag '/assets/brand-burbary.png' %>
+            <div class='vsap'></div>
+            <%= image_tag '/assets/brand-rayben.png' %>
+            <div class='vsap'></div>
+        </div>
+
+        <%= link_to image_tag('/images/down-arrow.png'), '#' %>
+
+        <div class='vsap'></div>
+    </div>
+</div>
+
+
+<div class='vsap'></div>
+<div class='vsap'></div>
+
+<div id='tryon' class='contant_area'>
+    <div class='container row comonp'>
+        <div class='col3 col-tb-4 col-mbl-12'>
+            <div class='quick_search'>
+                <h3 class='light-blue search-heading'>quick search</h3>
+
+                <div class='vsap2'></div>
+
+                <p class='p-black p11'>GENDER</p><br>
+                <div class='vsap3'></div>
+                <input type='radio'><p>MALE</p>
+                <input type='radio'><p>FEMALE</p>
+                <input type='radio'><p>CHILDREN</p>
+                <div class='vsap'></div>
+
+                <p class='p-black p11'>FRAME SHAPE</p><br>
+                <div class='vsap3'></div>
+                <input type='radio'><p>ROUND</p>
+                <input type='radio'><p>SQUARE</p>
+                <input type='radio'><p>RECTANGLE</p>
+                <div class='vsap'></div>
+
+                <p class='p-black p11'>FACE SHAPE</p><br>
+                <div class='vsap3'></div>
+                <input type='radio'><p>ROUND</p>
+                <input type='radio'><p>SQUARE</p>
+                <input type='radio'><p>HEART</p><br>
+                <input type='radio'><p>OVAL</p>
+                <div class='vsap'></div>
+
+                <p class='p-black p11'>COLOR</p><br>
+                <div class='vsap2'></div>
+                <div class='row colorss'>
+                    <div class='color-w color1'></div>
+                    <div class='color-w color2'></div>
+                    <div class='color-w color3'></div>
+                    <div class='color-w color4'></div>
+                    <div class='color-w color17'></div>
+                    <div class='color-w color5'></div>
+                    <div class='color-w color6'></div>
+                    <div class='color-w color7'></div>
+                    <div class='color-w color8'></div>
+                    <div class='color-w color18'></div>
+                    <div class='color-w color9'></div>
+                    <div class='color-w color10'></div>
+                    <div class='color-w color11'></div>
+                    <div class='color-w color12'></div>
+                    <div class='color-w color13'></div>
+                    <div class='color-w color16'></div>
+                    <div class='color-w color14'></div>
+                    <div class='color-w color15'></div>
+                    <div class='color-w color16'></div>
+                    <div class='color-w color17'></div>
+                    <div class='color-w color18'></div>
+                </div>
+
+                <div class='vsap'></div>
+
+                <p class='p-black p11'>STYLE</p><br>
+                <div class='vsap3'></div>
+                <input type='radio'><p>CLASSIC</p>
+                <input type='radio'><p>EYEWEAR ART</p>
+                <input type='radio'><p>MODEREN</p><br>
+                <input type='radio'><p>RETRO</p>
+                <input type='radio'><p>RETRO FEMME</p>
+                <input type='radio'><p>TRENDY</p>
+
+                <div class='vsap'></div>
+                <div class='vsap'></div>
+
+                <%= link_to 'SEARCH', '#', class: 'search-btn light-blue' %>
+
+                <div class='vsap'></div>
+                <div class='vsap'></div>
+                <div class='vsap'></div>
+            </div>
+        </div>
+
+        <div class='col9 col-tb-8 col-mbl-12'>
+            <div class='collection'>
+                <p class='eye'>Search</p> <p class='collect'>Result</p>
+
+                <div class='vsap'></div>
+
+                <div class='row'>
+                    <% [1, 3, 2, 4, 3, 3, 4, 2].each do |i| %>
+                        <div class='col6 col-tb-12 col-mbl-12'>
+                            <div class='row single-details positn'>
+                                <div class='col8'>
+                                    <div class='details-img positn'>
+                                        <%= image_tag "/assets/eyeglass#{i}.png", class: 'img-w' %>
+                                        <%= link_to image_tag('/assets/zoomin.png', class: 'absolut zoomin'), '#' %>
+                                    </div>
+                                </div>
+
+                                <div class='col4'>
+                                    <%= link_to 'DETAILS', '#', class: 'p-black p12 absolut' %>
+                                </div>
+                            </div>
+                        </div>
+                    <% end %>
+                </div>
+
+                <div class='down-arow'>
+                    <%= link_to image_tag('/images/down-arrow-black.png'), '#' %>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,77 @@
+<% address_id = address_type.chars.first %>
+<%= content_tag :table, data: {hook: "#{address_type}_inner"} do %>
+    <tr>
+        <td>
+            <%= form.input :firstname, input_html: {class: 'form-control'} %>
+        </td>
+        <td>
+            <%= form.input :lastname, input_html: {class: 'form-control'} %>
+        </td>
+    </tr>
+
+    <% if Spree::Config[:company] %>
+        <tr>
+            <td>
+                <%= form.input :company, input_html: {class: 'form-control'} %>
+            </td>
+        </tr>
+    <% end %>
+
+    <tr>
+        <td colspan='2'>
+            <%= form.input :address1, input_html: {class: 'street form-control'} %>
+        </td>
+    </tr>
+    <tr>
+        <td colspan='2'>
+            <%= form.input :address2, input_html: {class: 'street form-control'} %>
+        </td>
+    </tr>
+
+    <tr>
+        <td <%= "colspan='2'" unless Spree::Config[:address_requires_state]%>>
+            <%= form.input :city, input_html: {class: "form-control #{'street' unless Spree::Config[:address_requires_state]}"} %>
+        </td>
+
+        <% if Spree::Config[:address_requires_state] %>
+            <td>
+                <div class='input required'>
+                    <div class='states-container' style='display:none'>
+                        <%= form.label :state_id, required: true %>
+                        <%= content_tag :div, 'Select Country first', id: "#{address_id}select-country-first", class: 'select-country-first' %>
+                        <%= content_tag :div, "<i class='icon-refresh icon-spin'></i> Loading States".html_safe, id: "#{address_id}loading-states", class: 'select-country-first', style: 'display: none' %>
+
+                        <%= form.input(:state_id, as: :select, label: false, wrapper: false, collection: [], disabled: true, input_html: {id: "#{address_id}state-select", class: 'form-control', style: 'margin-bottom: 0; display:none'}) %>
+                        <%= form.input(:state_name, as: :string, label: false, wrapper: false, disabled: true, input_html: {id: "#{address_id}state-input", class: 'form-control', style: 'display:none', placeholder: 'State Name'}) %>
+                    </div>
+
+                    <noscript>
+                        <%= form.input :state_name, input_html: {class: 'form-control'} %>
+                    </noscript>
+                </div>
+            </td>
+        <% end %>
+    </tr>
+
+    <tr>
+        <td>
+            <%= form.input :zipcode, input_html: {class: 'form-control'} %>
+        </td>
+
+        <td>
+            <%= form.association :country, as: :select, collection: available_countries, input_html: {class: 'form-control country-select', data: {:'address-id' => address_id}} %>
+        </td>
+    </tr>
+
+    <tr>
+        <td>
+            <%= form.input :phone, input_html: {class: 'form-control'} %>
+        </td>
+
+        <% if Spree::Config[:alternative_shipping_phone] %>
+            <td>
+                <%= form.input :alternative_phone, input_html: {class: 'form-control'} %>
+            </td>
+        <% end %>
+    </tr>
+<% end %>

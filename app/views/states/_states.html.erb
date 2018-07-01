@@ -1,0 +1,3 @@
+<% if @states.any? %>
+    <%= options_for_select @states.map {|s| [s.name, s.id]} %>
+<% end %>

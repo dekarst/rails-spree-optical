@@ -1,0 +1,34 @@
+@font-face {
+    font-family: 'futura';
+    src: url('/fonts/FuturaLT.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'futura-book';
+    src: url('/fonts/FuturaLT-Book.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'futura-light';
+    src: url('/fonts/FuturaLT-Light.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'futura-condensed';
+    src: url('/fonts/FuturaLT-Condensed.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'myriadpro';
+    src: url('/fonts/MyriadPro-Regular.otf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}

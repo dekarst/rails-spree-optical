@@ -1,0 +1,31 @@
+<div data-hook='admin_brand_form_fields' class='label-block left twelve columns alpha'>
+    <div data-hook='brands'>
+        <div class='field' data-hook='name'>
+            <%= f.label :name, Spree.t(:name) %>
+            <%= f.text_field :name, class: 'fullwidth' %>
+        </div>
+
+        <div class='field' data-hook='url'>
+            <%= f.label :url, Spree.t(:url) %>
+            <%= f.text_field :url, class: 'fullwidth' %>
+        </div>
+
+        <div class='left six columns alpha'>
+            <% if @brand.image? %>
+                <div class='align-center field checkbox'>
+                    <%= f.label Spree.t(:image) %><br>
+                    <%= image_tag(@brand.image_url) %>
+
+                    <label>
+                        <%= f.check_box :remove_image %> Remove Image
+                    </label>
+                </div>
+            <% end %>
+
+            <div class='field' data-hook='image'>
+                <%= f.label :image, Spree.t(:image) %>
+                <%= f.file_field :image, class: 'fullwidth' %>
+            </div>
+        </div>
+    </div>
+</div>

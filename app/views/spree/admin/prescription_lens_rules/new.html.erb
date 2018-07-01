@@ -1,0 +1,15 @@
+<%= render partial: 'spree/admin/shared/product_sub_menu' %>
+
+<%= render partial: 'spree/shared/error_messages', locals: {target: @prescription_lens_rule} %>
+
+<%= nested_form_for [:admin, @prescription_lens_rule] do |f| %>
+    <fieldset data-hook='prescription_lens_rule'>
+        <legend align='center'><%= Spree.t(:prescription_lens_rule) %></legend>
+
+        <%= render partial: 'form', locals: {f: f} %>
+
+        <div class='filter-actions'>
+            <%= render partial: 'spree/admin/shared/new_resource_links' %>
+        </div>
+    </fieldset>
+<% end %>

@@ -1,0 +1,13 @@
+<div data-hook='admin_lens_protection_option_form_fields' class='label-block twelve columns alpha'>
+    <div data-hook='lens_protection_options'>
+        <div class='field' data-hook='name'>
+            <%= f.label :name, Spree.t(:name) %>
+            <%= f.text_field :name, class: 'fullwidth' %>
+        </div>
+
+        <div class='field' data-hook='price'>
+            <%= f.label :price, Spree.t(:price) %>
+            <%= f.text_field :price, class: 'fullwidth' %>
+        </div>
+    </div>
+</div>

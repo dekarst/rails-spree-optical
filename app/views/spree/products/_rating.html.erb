@@ -1,0 +1,7 @@
+<div class='starmark-rating'>
+    <div class='starbg'>
+        <%= content_tag :div, '', class: 'star', data: {dimension: 'rating', rating: @product.rating_average.try(:avg), readonly: true, :'star-count' => 5} %>
+    </div>
+
+    <div class='read-all-reviews'><%= link_to 'READ ALL REVIEWS', spree.reviews_product_path(@product), class: 'p-Lblue p13 p-bold' %></div>
+</div>

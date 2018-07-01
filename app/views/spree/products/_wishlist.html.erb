@@ -1,0 +1,10 @@
+<% if user_signed_in? %>
+    <% if current_user.wishlisted?(@product) %>
+        <%= link_to 'Remove From WHISHLST', main_app.remove_from_wishlist_path(product_id: @product.id), remote: true %>
+    <% else %>
+
+        <%= link_to 'SAVE WHISHLST', main_app.add_to_wishlist_path(product_id: @product.id), remote: true %>
+    <% end %>
+<% else %>
+    <%= link_to 'SAVE WHISHLST', main_app.new_user_session_path %>
+<% end %>

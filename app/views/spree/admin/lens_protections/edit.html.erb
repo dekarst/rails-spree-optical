@@ -1,0 +1,21 @@
+<%= render partial: 'spree/admin/shared/product_sub_menu' %>
+<%= render partial: 'spree/admin/shared/product_types_sub_menu' %>
+
+<% content_for :page_title do %>
+    <%= Spree.t(:editing_lens_protection) %>
+<% end %>
+
+<% content_for :page_actions do %>
+    <li><%= button_link_to Spree.t(:back_to_lens_protections_list), admin_lens_protections_url, icon: 'icon-arrow-left'%></li>
+<% end %>
+
+<%= render partial: 'spree/admin/shared/options_tabs', locals: {product: @lens_protection, current: 'Details'} %>
+
+<%= render partial: 'spree/shared/error_messages', locals: {target: @lens_protection} %>
+
+<%= form_for [:admin, @lens_protection] do |f| %>
+    <fieldset class='no-border-top'>
+        <%= render partial: 'form', locals: {f: f} %>
+        <%= render partial: 'spree/admin/shared/edit_resource_links' %>
+    </fieldset>
+<% end %>

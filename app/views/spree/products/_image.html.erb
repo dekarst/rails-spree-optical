@@ -1,0 +1,9 @@
+<% if defined?(image) && image %>
+    <%= link_to image.attachment.url(:large), data: {lightbox: 'product'} do %>
+        <%= image_tag image.attachment.url(:product), itemprop: 'image' %>
+    <% end %>
+<% else %>
+    <%= link_to large_image(@product).match(/^.*src=["|'](?<url>.*)["|'].*?/).try(:[], :url), data: {lightbox: 'product'} do %>
+        <%= product_image(@product, itemprop: 'image') %>
+    <% end %>
+<% end %>

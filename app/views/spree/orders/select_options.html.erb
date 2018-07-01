@@ -1,0 +1,139 @@
+<div class='container row comonp'>
+    <%= render 'sidebar_line_item', sidebar_line_item: @frame_line_item %>
+
+    <div class='col-tb-12 col-mbl-12 col7'>
+        <%= simple_form_for @frame_line_item, url: main_app.options_path, method: :post do |f| %>
+            <%= f.error_notification(message: build_error_notification_message(@frame_line_item,"Some errors were found, please take a look:", [:lens_thickness, :populator, :checkout]).html_safe) %>
+
+            <%= f.hidden_field :id, value: params[:line_item_id] %>
+
+            <div class='contant_bg addtocart'>
+                <div class='vsap2'></div>
+                <h4 class='dep-blue'>Now, let's select a lens thickness for you!</h4>
+
+                <p>Again, if you're not sure,</p>
+                <%= link_to 'click here to chat with a certified optician', '#' %>
+                <p>(we'll guide you through the process).</p><br>
+
+                <p class='p-black p14'>Select your lens thickness option below.</p> <p class='p-red'>(Required)</p>
+
+                <div class='vsap'></div>
+                <div class='vsap'></div>
+
+                <div class='row'>
+                    <% @lens_thicknesses.each do |lens_thickness| %>
+                        <div class='col4 col-tb-6 col-mbl-12'>
+                            <div class='single_lense lens-thickness cntr <%= 'positn' if lens_thickness.recommended? %>'>
+                                <%= link_to 'Recommended!', '#', class: 'btn-ex-small absolut recomodet' if lens_thickness.recommended? %>
+
+                                <div class='lense-img'>
+                                    <%= link_to image_tag(lens_thickness.image_url), lens_thickness.image_url, data: {lightbox: "lens-thickness-#{lens_thickness.id}"} %>
+                                </div>
+
+                                <div class='vsap2'></div>
+
+                                <p class='p-black p14'><%= lens_thickness.name %></p><br>
+                                <p><%= lens_thickness.description %></p><br>
+                                <p class='price p-blue'><%= lens_thickness.display_price.to_html %></p>
+
+                                <div class='vsap2'></div>
+
+                                <% lens_thickness.options.each do |option| %>
+                                    <div class='seletion'>
+                                        <%= f.input :lens_thickness_option_id, as: :radio, label: false, collection: [[option.name, option.id]], input_html: {class: 'lens-thickness-option', data: {:'thickness-price' => option.display_price.to_s}} %>
+                                    </div>
+                                    <div class='vsap2'></div>
+                                <% end %>
+                            </div>
+                        </div>
+                    <% end %>
+                </div>
+            </div>
+
+            <div class='vsap3'></div>
+
+            <div class='contant_bg addtocart'>
+                <div class='vsap2'></div>
+
+                <h4 class='dep-blue'>Terrific! Next, lets's enhance your lenses.</h4>
+
+                <p class='p-black p14'>Pick your add-ons below.</p><br>
+                <p>We've marked our recommendations for you! If you need more info, </p>
+
+                <%= link_to 'chat with us!', '#' %>
+
+                <div class='vsap2'></div>
+
+                <div class='row'>
+                    <% @lens_protections.each do |lens_protection| %>
+                        <div class='col3 col-tb-6 col-mbl-12'>
+                            <div class='single_lense lens-protection cntr'>
+                                <div class='lense-img'>
+                                    <%= link_to image_tag(lens_protection.image_url), lens_protection.image_url, data: {lightbox: "lens-protection-#{lens_protection.id}"} %>
+                                </div>
+
+                                <div class='vsap2'></div>
+
+                                <p class='p-black p14'><%= lens_protection.name %></p><br>
+                                <p><%= lens_protection.description %></p><br>
+                                <p class='price p-blue'><%= lens_protection.display_price.to_html %></p>
+
+                                <div class='vsap2'></div>
+
+                                <% lens_protection.options.each do |option| %>
+                                    <div class='seletion'>
+                                        <div class='input radio optional'>
+                                            <%= f.radio_button :lens_protection_options, option.id, name: "frame_line_item[lens_protection_options][#{lens_protection.id}]", class: 'seletin lens-protection-option', checked: @frame_line_item.lens_protection_option_ids.include?(option.id), data: {:'protection-price' => option.display_price.to_s} %>
+                                            <%= content_tag :label, option.name, class: 'collection_radio', for: "frame_line_item_lens_protection_options_#{option.id}" %>
+                                        </div>
+                                    </div>
+                                    <div class='vsap2'></div>
+                                <% end %>
+
+                                <%= link_to 'Remove', 'javascript:void()', class: 'btn btn-danger remove-lens-protection', style: 'display:none', :'data-lens-protection-id' => lens_protection.id %>
+                                <div class='vsap'></div>
+                            </div>
+
+                            <div class='vsap'></div>
+                        </div>
+                    <% end %>
+                </div>
+            </div>
+
+            <div class='vsap'></div>
+
+            <div class='back_continue cntr'>
+                <%= link_to :back, class: 'btn-ex-large btn-white' do %>
+                    <%= image_tag '/images/submit-arow2.png' %> BACK
+                <% end %>
+
+                <%= button_tag class: 'btn-ex-large btn-blue', type: :submit do %>
+                    ADD TO CART <%= image_tag '/images/submit-arow.png' %>
+                <% end %>
+            </div>
+        <% end %>
+    </div>
+
+    <div class='col2 disply-none'>
+        <div class='ads ads-side'>
+            <%= insert_banner_box(category: 'vertical', class: 'img-w') %>
+        </div>
+    </div>
+</div>
+
+<div class='vsap'></div>
+<div class='vsap'></div>
+
+<div class='container row'>
+    <div class='col8 disply-none'>
+        <div class='ads ads-bottom'>
+            <%= insert_banner_box(category: 'bottom', class: 'img-w') %>
+        </div>
+    </div>
+
+    <div class='col4 col-tb-12 col-mbl-12'>
+        <div class='warranty comonp'>
+            <%= raw @warranty_page_content if @warranty_page_content.present? %>
+        </div>
+    </div>
+</div>

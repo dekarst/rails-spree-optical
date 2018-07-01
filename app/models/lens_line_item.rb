@@ -1,0 +1,2 @@
+class LensLineItem < NonBuyableLineItem
+end

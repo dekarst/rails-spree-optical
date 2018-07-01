@@ -1,0 +1,31 @@
+<%= render 'users/sidebar' unless request.referer.include?('checkout') %>
+
+<div class='container row forms'>
+    <div class='col-md-10 col-md-push-1'>
+        <fieldset id='order_summary' data-hook>
+            <h3 id='order-title' class='light-blue text-center'><%= Spree.t(:order) + ' #' + @order.number %></h3>
+
+            <div id='order' data-hook>
+                <% if params.has_key? :checkout_complete %>
+                    <h1 id='thank-you-order'><%= Spree.t(:thank_you_for_your_order) %></h1>
+                <% end %>
+
+                <%= render partial: 'spree/shared/order_details', locals: {order: @order} %>
+
+                <br class='clear' />
+
+                <p data-hook='links'>
+                    <% if request.referer.include?('checkout') %>
+                        <%= link_to "<i class='icon-reply'></i> #{Spree.t(:back_to_store)}".html_safe, spree.root_path, class: 'btn btn-primary' %>
+                    <% end %>
+
+                    <% unless params.has_key? :checkout_complete %>
+                        <% if try_spree_current_user && respond_to?(:spree_account_path) %>
+                            <%= link_to Spree.t(:my_account), spree_account_path, class: 'button' %>
+                        <% end %>
+                    <% end %>
+                </p>
+            </div>
+        </fieldset>
+    </div>
+</div>

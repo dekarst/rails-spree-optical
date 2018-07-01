@@ -1,0 +1,78 @@
+<div class='container row comonp'>
+    <%= render 'sidebar_line_item', sidebar_line_item: @frame_line_item %>
+
+    <div class='col-tb-12 col-mbl-12 col7'>
+        <%= simple_form_for @frame_line_item, url: main_app.lenses_path, method: :post do |f| %>
+            <%= f.error_notification(message: build_error_notification_message(@frame_line_item,"Some errors were found, please take a look:", [:prescription, :prescription_eyes, :lens, :populator, :checkout]).html_safe) %>
+
+            <%= f.hidden_field :id, value: params[:line_item_id] %>
+
+            <div class='contant_bg needs'>
+                <div class='vsap2'></div>
+                <h4 class='dep-blue'>First, tell me what type of lenses you will need.</h4>
+                <div class='vsap2'></div>
+
+                <div class='row'>
+                    <% @lenses.each do |lens| %>
+                        <div id='lens-<%= lens.id %>' class='col-mbl-12 col4 lens-select'>
+                            <div class='single_lense cntr'>
+                                <div class='lense-img'>
+                                    <%= link_to lens.large_image, data: {lightbox: "lens-#{lens.id}"} do %>
+                                        <%= small_image lens %>
+                                        <%= image_tag '/images/ssss.png', class: 'magnifier' %>
+                                    <% end %>
+                                </div>
+
+                                <div class='vsap2'></div>
+
+                                <p class='lens-name'><%= lens.name %></p><br>
+                                <p>Starting at </p>&nbsp;<p class='p-blue'><%= lens.display_price %></p>
+
+                                <div class='seletion'>
+                                    <%= f.input :lens_id, as: :radio, label: false, collection: [['Select', lens.id]] %>
+                                </div>
+
+                                <div class='vsap2'></div>
+                            </div>
+                        </div>
+                    <% end %>
+                </div>
+            </div>
+
+            <div class='vsap'></div>
+
+            <div class='back_continue cntr'>
+                <%= link_to :back, class: 'btn-ex-large btn-white' do %>
+                    <%= image_tag('/images/submit-arow2.png') %> BACK
+                <% end %>
+
+                <%= button_tag class: 'btn-ex-large btn-blue', type: :submit do %>
+                    CONTINUE <%= image_tag('/images/submit-arow.png') %>
+                <% end %>
+            </div>
+        <% end %>
+    </div>
+
+    <div class='col2 disply-none'>
+        <div class='ads ads-side'>
+            <%= insert_banner_box(category: 'vertical', class: 'img-w') %>
+        </div>
+    </div>
+</div>
+
+<div class='vsap'></div>
+<div class='vsap'></div>
+
+<div class='container row'>
+    <div class='col8 disply-none'>
+        <div class='ads ads-bottom'>
+            <%= insert_banner_box(category: 'bottom', class: 'img-w') %>
+        </div>
+    </div>
+
+    <div class='col4 col-tb-12 col-mbl-12'>
+        <div class='warranty comonp'>
+            <%= raw @warranty_page_content if @warranty_page_content.present? %>
+        </div>
+    </div>
+</div>

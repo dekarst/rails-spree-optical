@@ -1,0 +1,22 @@
+<% content_for :sidebar do %>
+    <div class='row controler contant_bg'>
+        <div class='vsap'></div>
+
+        <h4 class='dep-blue'>My Account</h4>
+
+        <div class='vsap2'></div>
+        <div class='bdrb'></div>
+
+        <ul>
+            <%= user_settings_item('Account Dashboard', main_app.dashboard_users_path) %>
+            <%= user_settings_item('Account Information', main_app.edit_user_registration_path) %>
+            <%= user_settings_item('My Orders', main_app.orders_users_path, ['/orders/']) %>
+            <%= user_settings_item('My Prescriptions', main_app.prescriptions_users_path) %>
+            <%= user_settings_item('My Product Reviews', main_app.reviews_users_path) %>
+            <%= user_settings_item('My Wishlist', main_app.wishlist_users_path) %>
+        </ul>
+
+        <div class='vsap'></div>
+        <div class='vsap'></div>
+    </div>
+<% end %>

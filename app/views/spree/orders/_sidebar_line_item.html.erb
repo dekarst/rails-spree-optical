@@ -1,0 +1,92 @@
+<div class='col-tb-12 col-mbl-12 col3'>
+    <div class='contant_bg'>
+        <div class='selections'>
+            <div class='vsap2'></div>
+
+            <h4 class='dep-blue'>YOUR SELECTIONS</h4>
+
+            <div class='vsap2'></div>
+            <div class='bdrb'></div>
+            <div class='vsap2'></div>
+
+            <div class='text-center'>
+                <%= link_to @product do %>
+                    <%= small_image @variant %>
+                <% end %>
+            </div>
+
+            <% if sidebar_line_item.is_a?(FrameLineItem) %>
+                <p class='p-blue'>Frame:</p><br>
+            <% elsif sidebar_line_item.is_a?(ContactLensLineItem) %>
+                <p class='p-blue'>Contact Lens:</p><br>
+            <% end %>
+
+            <p class='p-blue'><%= @product.name %></p><br>
+
+            <% if sidebar_line_item.is_a?(FrameLineItem) %>
+                <p class='textimg textpadd'>Gender:</p>
+                <p class='pull-right'><%= @product.gender %></p>
+                <div class='bdrb-dash'></div>
+
+                <div class='row'>
+                    <p class='textimg textpadd col6'>Frame color:</p>
+                    <p class='pull-right psiging col6'><%= @variant.color %></p>
+                </div>
+                <div class='bdrb-dash'></div>
+
+                <p class='textimg textpadd'>Frame size:</p>
+                <p class='pull-right'><%= @variant.complete_size %></p>
+                <div class='bdrb-dash'></div>
+
+                <p>Frame Subtotal:</p>
+                <p class='p-blue pull-right'><%= display_price(@variant) %></p>
+                <div class='bdrb-dash'></div>
+
+                <p class='p-blue'>
+                    Lens Package:
+                    <%= link_to "(edit)", spree.select_lens_orders_path(sidebar_line_item) if sidebar_line_item.lens.present? %>
+                </p>
+                <% if sidebar_line_item.lens.present? %>
+                    <p class='p-blue pull-right'><%= display_price(sidebar_line_item.lens) %></p>
+                <% else %>
+                    <p class='pull-right'>-</p>
+                <% end %>
+                <div class='bdrb-dash'></div>
+
+                <p class='p-blue'><%= link_to "Select Prescription", spree.select_prescription_orders_path(sidebar_line_item) %></p>
+                <div class='bdrb-dash'></div>
+
+                <p class='textimg textpadd'><%= link_to 'Add Items', spree.select_options_orders_path(sidebar_line_item.id) %></p>
+                <div class='bdrb-dash'></div>
+
+                <% if sidebar_line_item.lens_thickness_option.present? %>
+                    <p class='p-blue'><%= sidebar_line_item.lens_thickness_option.lens_thickness.name %>:</p>
+                    <p class='p-blue pull-right'><%= display_price(sidebar_line_item.lens_thickness_option) %></p>
+                    <br>
+                <% end %>
+
+                <% sidebar_line_item.lens_protection_options.each do |option| %>
+                    <p class='p-blue'><%= option.lens_protection.name %>:</p>
+                    <p class='p-blue pull-right'><%= display_price(option) %></p>
+                    <br>
+                <% end %>
+
+                <p class='p-black p14'>Lens Package Subtotal:</p>
+                <% if sidebar_line_item.lens.present? %>
+                    <p class='p-blue pull-right'><%= sidebar_line_item.lens_package_subtotal_html %></p>
+                <% else %>
+                    <p class='pull-right'>-</p>
+                <% end %>
+                <div class='bdrb'></div>
+
+                <p class='p-black p14'>Frame + Lens Package:</p>
+                <p class='p-blue pull-right'><%= sidebar_line_item.frame_plus_lens_package %></p>
+            <% elsif sidebar_line_item.is_a?(ContactLensLineItem) %>
+                <p>Total:</p>
+                <p class='p-blue pull-right'><%= display_price(@variant) %></p>
+            <% end %>
+        </div>
+    </div>
+
+    <div class='vsap'></div>
+</div>

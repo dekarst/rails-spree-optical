@@ -1,0 +1,34 @@
+<div id='contact-lens-options'>
+    <table class='table table-responsive table-bordered'>
+        <thead>
+            <tr>
+                <th>Eye</th>
+                <% @prescription_options.each do |name, values| %>
+                    <th><%= name %></th>
+                <% end %>
+                <th>Qty.</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <% [[:right, 'R (OD)'], [:left, 'L (OS)']].each do |eye, eye_name| %>
+                <tr class='active'>
+                    <td><%= eye_name %></td>
+                    <% @prescription_options.each do |name, values| %>
+                        <td>
+                            <% if values.size == 1 %>
+                                <%= hidden_field "prescription_options[#{eye}][values]", nil, value: values.first.id %>
+                                <%= values.first.name %>
+                            <% else %>
+                                <%= select_tag "prescription_options[#{eye}][values][]", options_from_collection_for_select(values, :id, :name), class: 'form-control', prompt: 'Select' %>
+                            <% end %>
+                        </td>
+                    <% end %>
+                    <td class='col-xs-2'>
+                        <%= select_tag "prescription_options[#{eye}][quantity]", options_for_select([['None', 0]]+(1..20).to_a, 1), class: 'form-control' %>
+                    </td>
+                </tr>
+            <% end %>
+        </tbody>
+    </table>
+</div>

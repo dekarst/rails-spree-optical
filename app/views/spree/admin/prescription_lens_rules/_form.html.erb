@@ -1,0 +1,36 @@
+<div data-hook='admin_prescription_lens_rule_form' class='align-center row'>
+    <div class='alpha three columns'>
+        <%= f.field_container :prescription_item do %>
+            <%= f.label :prescription_item, Spree.t(:item) %> <span class='required'>*</span><br />
+            <%= f.collection_select :prescription_item_id, PrescriptionItem.all, :id, :name, {prompt: true}, {class: 'select2 fullwidth'} %>
+        <% end %>
+    </div>
+
+    <div class='two columns'>
+        <%= f.field_container :operation do %>
+            <%= f.label :operation, Spree.t(:operation) %> <span class='required'>*</span><br />
+            <%= f.select :operation, options_for_select([['=', '='], ['!=', '!='], ['>', '>'], ['>=', '>='], ['<', '<'], ['<=', '<=']]), {prompt: true}, {class: 'select2 fullwidth'} %>
+        <% end %>
+    </div>
+
+    <div class='four columns'>
+        <%= f.field_container :value do %>
+            <%= f.label :value, Spree.t(:value) %> <span class='required'>*</span><br />
+            <%= f.text_field :value %>
+        <% end %>
+    </div>
+
+    <div class='two columns'>
+        <%= f.field_container :complementary_operation do %>
+            <%= f.label :complementary_operation, Spree.t(:operation) %><br />
+            <%= f.select :complementary_operation, options_for_select([['>', '>'], ['>=', '>='], ['<', '<'], ['<=', '<=']]), {prompt: true}, {class: 'select2 fullwidth'} %>
+        <% end %>
+    </div>
+
+    <div class='four columns'>
+        <%= f.field_container :complementary_value do %>
+            <%= f.label :complementary_value, Spree.t(:complementary_value) %> <span class='required'>*</span><br />
+            <%= f.text_field :complementary_value %>
+        <% end %>
+    </div>
+</div>

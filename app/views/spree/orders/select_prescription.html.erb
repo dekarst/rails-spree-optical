@@ -1,0 +1,172 @@
+<div class='container row comonp'>
+    <%= render 'sidebar_line_item', sidebar_line_item: @line_item %>
+
+    <div class='col-tb-12 col-mbl-12 col7'>
+        <%= simple_form_for @line_item, as: :line_item, url: main_app.prescriptions_path, method: :post, html: {multipart: true} do |f| %>
+            <%= f.error_notification(message: build_error_notification_message(@line_item,"Some errors were found, please take a look:", [:prescription, :prescription_eyes, :lens, :populator, :checkout]).html_safe) %>
+
+            <%= f.hidden_field :id, value: params[:line_item_id] %>
+
+            <%= f.simple_fields_for :prescription do |prescription_form| %>
+                <div class='contant_bg prescript'>
+                    <div class='vsap'></div>
+                    <h4 class='dep-blue'>Do you have your prescription available?</h4>
+                    <div class='vsap2'></div>
+                    <div class='vsap'></div>
+
+                    <%= prescription_form.input :chosen_method, as: :radio, label: false, collection: [["I don't have it just now. (No worries...we can help.)", 1]], checked: @prescription.chosen_method, input_html: {data: {toggle: 'collapse', target: '#collapse-1', parent: '#new_prescription'}} %>
+                    <div class='vsap'></div>
+
+                    <div id='collapse-1' class='panel-collapse collapse'>
+                        <div class='confirma'>
+                            <p class='p-black'>No prescription handy? Don't worry....we can help!</p>
+                            <p class='p-black'>We'll call you or your eye doctor directly to verify your prescription.</p>
+                        </div>
+                    </div>
+
+                    <div class='vsap'></div>
+                    <%= prescription_form.input :chosen_method, as: :radio, label: false, collection: [["Yes. I have it and would like to enter it now.", 2]], checked: @prescription.chosen_method, checked: @prescription.chosen_method, input_html: {data: {toggle: 'collapse', target: '#collapse-2', parent: '#new_prescription'}} %>
+                    <div class='vsap'></div>
+
+                    <div id='collapse-2' class='panel-collapse collapse'>
+                        <div class='midform'>
+                            <div class='vsap'></div>
+
+                            <div class='row'>
+                                <div class='col2'>
+                                    <div class='vsap'></div>
+                                </div>
+
+                                <% @prescription_options.each do |name, values| %>
+                                    <div class='<%= values.size == 1 ? "col1" : "col2" %>'>
+                                        <span><%= name %></span>
+                                    </div>
+                                <% end %>
+
+                                <% if @line_item.is_a?(ContactLensLineItem) %>
+                                    <div class='col2'>
+                                        <span>Qty</span>
+                                    </div>
+                                <% end %>
+                            </div>
+
+                            <% @prescription.eyes.each do |eye| %>
+                                <%= prescription_form.simple_fields_for "#{eye.name}_eye".to_sym do |prescription_eye_form| %>
+                                    <div id='prescription-form' class='row'>
+                                        <div class='col2 <%= "field_with_errors" if @line_item.errors.has_key?(:prescription) %>'>
+                                            <%= prescription_eye_form.input :checked, as: :check_boxes, label: false, collection: [[eye.pretty_name, true]], checked: eye.checked?, required: false, input_html: {class: "#{eye.name}-eye"} %>
+                                        </div>
+
+                                        <% @prescription_options.each do |name, values| %>
+                                            <% if values.size == 1 %>
+                                                <div class='col1'>
+                                                    <%= prescription_eye_form.input :values, as: :hidden, input_html: {value: values.first.id, name: "line_item[prescription_attributes][#{eye.name}_eye][values][]"} %>
+                                                    <%= values.first.name %><br>
+                                                </div>
+                                            <% else %>
+                                                <div class='col2'>
+                                                    <%= prescription_eye_form.input :values, as: :select, label: false, collection: values.map {|v| [v.name, v.id]}, selected: eye.selected_value(values.map {|v| v.id}), prompt: 'Select', input_html: {name: "line_item[prescription_attributes][#{eye.name}_eye][values][]", class: "#{eye.name}-eye select2"} %><br>
+                                                </div>
+                                            <% end %>
+                                        <% end %>
+
+                                        <% if @line_item.is_a?(ContactLensLineItem) %>
+                                            <div class='col2'>
+                                                <%= prescription_eye_form.input :quantity, as: :select, label: false, collection: [['None', 0]]+(1..20).map {|n| [n, n]}, selected: eye.quantity, prompt: 'Select', input_html: {name: "line_item[prescription_attributes][#{eye.name}_eye][quantity]", class: "#{eye.name}-eye select2"} %><br>
+                                            </div>
+                                        <% end %>
+                                    </div>
+                                <% end %>
+                            <% end %>
+                        </div>
+
+                        <div class='vsap2'></div>
+
+                        <div class='bottomtext'>
+                            <div>
+                                <input type='checkbox'>
+                                <p>I have more than one PD number:</p>
+
+                                <%= link_to '(What is this?)', '#' %>
+                            </div>
+
+                            <div>
+                                <input type='checkbox'>
+                                <p>I don'have my PD (Pupillary Distance) number</p>
+
+                                <%= link_to '(What is PD?)', '#' %>
+                            </div>
+
+                            <p>
+                                <br>
+                                <br>
+                                <%= link_to 'How do i find my PD?', '#' %>    <%= link_to 'Let us measure your PF!', '#' %>
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class='vsap'></div>
+                    <%= prescription_form.input :chosen_method, as: :radio, label: false, collection: [["I believe you have it on file already.", 3]], checked: @prescription.chosen_method, input_html: {data: {toggle: 'collapse', target: '#collapse-3', parent: '#new_prescription'}} %>
+                    <div class='vsap'></div>
+
+                    <div id='collapse-3' class='panel-collapse collapse'>
+                        TEXT
+                    </div>
+
+                    <div class='upload-document'>
+                        <% if prescription_form.object.scanned_document.present? %>
+                            <%= prescription_form.object.scanned_document.file.filename %>
+
+                            <label>
+                                <%= prescription_form.check_box :remove_scanned_document %>
+                                Remove Document
+                            </label>
+                        <% else %>
+                            <%= prescription_form.input :scanned_document, as: :file %>
+                        <% end %>
+                        <%= prescription_form.input :observation, required: false %>
+                    </div>
+                </div>
+
+                <div class='descriptions'>
+                    <p><%= select_prescription_text %></p>
+                </div>
+
+                <div class='vsap'></div>
+
+                <div class='back_continue cntr'>
+                    <%= link_to :back, class: 'btn-ex-large btn-white' do %>
+                        <%= image_tag('/images/submit-arow2.png') %> BACK
+                    <% end %>
+
+                    <%= button_tag class: 'btn-ex-large btn-blue', type: :submit do %>
+                        CONTINUE <%= image_tag('/images/submit-arow.png') %>
+                    <% end %>
+                </div>
+            <% end %>
+        <% end %>
+    </div>
+
+    <div class='col2 disply-none'>
+        <div class='ads ads-side'>
+            <%= insert_banner_box(category: 'vertical', class: 'img-w') %>
+        </div>
+    </div>
+</div>
+
+<div class='vsap'></div>
+<div class='vsap'></div>
+
+<div class='container row'>
+    <div class='col8 disply-none'>
+        <div class='ads ads-bottom'>
+            <%= insert_banner_box(category: 'bottom', class: 'img-w') %>
+        </div>
+    </div>
+
+    <div class='col4 col-tb-12 col-mbl-12'>
+        <div class='warranty comonp'>
+            <%= raw @warranty_page_content if @warranty_page_content.present? %>
+        </div>
+    </div>
+</div>

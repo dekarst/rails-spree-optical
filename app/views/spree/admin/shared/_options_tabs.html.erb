@@ -1,0 +1,19 @@
+<% if defined?(product) and (product.is_a?(LensThickness) or product.is_a?(LensProtection)) %>
+    <% content_for :sidebar do %>
+        <nav class='menu'>
+            <ul data-hook='admin_product_tabs'>
+                <%= content_tag :li, class: ('active' if current == 'Details') do %>
+                    <%= link_to_with_icon 'icon-edit', Spree.t(:product_details), edit_admin_product_url(product) %>
+                <% end if can?(:admin, Spree::Product) %>
+
+                <%= content_tag :li, class: ('active' if current == 'Options') do %>
+                    <% if product.is_a?(LensThickness) %>
+                        <%= link_to_with_icon 'icon-th-large', Spree.t(:options), admin_lens_thickness_lens_thickness_options_url(product) %>
+                    <% else %>
+                        <%= link_to_with_icon 'icon-th-large', Spree.t(:options), admin_lens_protection_lens_protection_options_url(product) %>
+                    <% end %>
+                <% end if can?(:admin, Spree::Product) %>
+            </ul>
+        </nav>
+    <% end %>
+<% end %>

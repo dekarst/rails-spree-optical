@@ -1,0 +1,60 @@
+<div class='vsap'></div>
+<div class='vsap'></div>
+
+<div class='container'>
+    <div class='col12'>
+        <div class='row wellcome'>
+            <h3 class='light-blue'>Welcome to EyeBuy for Less.com</h3>
+            <div class='bdrb'></div>
+        </div>
+
+        <div class='vsap'></div>
+        <div class='vsap'></div>
+
+        <div class='row contant_bg'>
+            <div class='vsap'></div>
+            <div class='vsap'></div>
+
+            <div class='col-tb-12 col-mbl-12 col6 signin'>
+                <div class='positn bdrr'>
+                    <%= image_tag '/images/what.png', class: 'whatsign absolut' %>
+                    <h3 class='light-blue'>SIGN IN</h3>
+
+                    <%= simple_form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+                        <p>Email or User ID</p><br>
+                        <%= f.input :email, label: false, required: true, autofocus: true %>
+
+                        <p>Password:</p><br>
+                        <%= f.input :password, label: false, required: true %>
+
+                        <p><%= link_to 'Forgot your password?', new_user_password_path %></p>
+
+                        <% content_for(:remember_me_label) do %>
+                            <div class='checks'><p>Stay signed in <span>(Uncheck if you're on a shared computer)</span></p></div><br>
+                        <% end %>
+                        <%= f.input :remember_me, label: content_for(:remember_me_label), as: :boolean, input_html: {class: 'check'} if devise_mapping.rememberable? %>
+
+                        <%= f.button :submit, 'SIGN IN', class: 'btn-large btn-blue step' %>
+
+                        <div class='vsap'></div>
+                    <% end %>
+                </div>
+            </div>
+
+            <div class='col-tb-12 col-mbl-12 col6 register cntr'>
+                <div class='vsap'></div>
+                <div class='vsap'></div>
+                <div class='vsap'></div>
+                <div class='vsap'></div>
+
+                <h3 class='light-blue'>New to Eye Buy For Less?</h3>
+
+                <p>Get started Now, It's fast and easy</p>
+                <%= link_to 'REGISTER', :new_user_registration, class: 'btn-large btn-blue' %>
+            </div>
+
+            <div class='vsap'></div>
+            <div class='vsap'></div>
+        </div>
+    </div>
+</div>

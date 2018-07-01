@@ -1,0 +1,32 @@
+<% @body_id = 'cart' %>
+
+<% if @order.line_items_without_non_buyables.empty? %>
+    <div class='container'>
+        <div class='text-center' data-hook='empty_cart'>
+            <p id='empty-cart'><%= Spree.t(:your_cart_is_empty) %></p>
+            <p><%= link_to "<i class='icon-reply'></i> #{Spree.t(:continue_shopping)}".html_safe, products_path, class: 'button continue btn btn-primary' %></p>
+        </div>
+    </div>
+<% else %>
+    <div data-hook='outside_cart_form'>
+        <%= simple_form_for @order, url: update_cart_path, html: {id: 'update-cart'} do |order_form| %>
+            <%= order_form.error_notification %>
+
+            <%= render partial: 'spree/shared/error_messages', locals: {target: @order} %>
+
+            <div class='container'>
+                <%= render partial: 'form', locals: {order_form: order_form} %>
+            </div>
+        <% end %>
+
+        <div class='container contant_bg'>
+            <%= form_tag empty_cart_path, method: :put do %>
+                <p id='clear_cart_link' data-hook>
+                    <%= button_tag "<i class='icon-remove'></i> #{Spree.t(:empty_cart)}".html_safe, type: :submit, class: 'btn-large btn-gray' %>
+                    <%= Spree.t(:or) %>
+                    <%= link_to Spree.t(:continue_shopping), products_path, class: 'continue btn-large' %>
+                </p>
+            <% end %>
+        </div>
+    </div>
+<% end %>

@@ -1,0 +1,171 @@
+<div class='vsap'></div>
+<div class='vsap'></div>
+
+<div class='container row'>
+    <div class='col10'>
+        <%= simple_form_for(resource, as: resource_name, url: registration_path(resource_name), html: {class: 'forms'}) do |f| %>
+            <%= f.error_notification %>
+
+            <%= f.simple_fields_for :addresses do |address_form| %>
+                <div class='row wellcome'>
+                    <h3 class='light-blue'>Create an Account</h3>
+
+                    <div class='bdrb disply-none'></div>
+                    <div class='vsap'></div>
+
+                    <table>
+                        <tr>
+                            <td><h5 class='light-blue'>PERSONAL INFORMATION</h5></td>
+                            <td></td>
+                        </tr>
+
+                        <tr>
+                            <td>
+                                <%= address_form.input :firstname, autofocus: true, input_html: {class: 'form-control'} %>
+                            </td>
+
+                            <td>
+                                <%= address_form.input :lastname, input_html: {class: 'form-control'} %>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td colspan='2'>
+                                <%= f.input :email, required: true %>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>
+                                <%= address_form.input :phone, input_html: {class: 'form-control'} %>
+                            </td>
+
+                            <% if Spree::Config[:alternative_shipping_phone] %>
+                                <td>
+                                    <%= address_form.input :alternative_phone, input_html: {class: 'form-control'} %>
+                                </td>
+                            <% end %>
+                        </tr>
+
+                        <tr>
+                            <td>
+                                <%= f.input :accepts_newsletters, label: 'Sign Up for Newsletter', input_html: {class: 'form-control'} %>
+                            </td>
+
+                            <td></td>
+                        </tr>
+                    </table>
+
+                    <div class='vsap'></div>
+
+                    <table>
+                        <tr>
+                            <td>
+                                <h5 class='light-blue'>LOGIN INFORMATION</h5>
+                            </td>
+
+                            <td></td>
+                        </tr>
+
+                        <tr>
+                            <td>
+                                <%= f.input :password, required: true, input_html: {class: 'form-control'} %>
+                            </td>
+
+                            <td>
+                                <%= f.input :password_confirmation, required: true, input_html: {class: 'form-control'} %>
+                            </td>
+                        </tr>
+                    </table>
+
+                    <div class='vsap'></div>
+                    <div class='bdrb disply-none'></div>
+                    <div class='vsap'></div>
+
+                    <table>
+                        <tr>
+                            <td><h5 class='light-blue'>ADDRESS</h5></td>
+
+                            <td></td>
+                        </tr>
+
+                        <% if Spree::Config[:company] %>
+                            <tr>
+                                <td>
+                                    <%= address_form.input :company, input_html: {class: 'form-control'} %>
+                                </td>
+                            </tr>
+                        <% end %>
+
+                        <tr>
+                            <td colspan='2'>
+                                <%= address_form.input :address1, input_html: {class: 'street form-control'} %>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td colspan='2'>
+                                <%= address_form.input :address2, input_html: {class: 'street form-control'} %>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td <%= "colspan='2'" unless Spree::Config[:address_requires_state]%>>
+                                <%= address_form.input :city, input_html: {class: "form-control #{'street' unless Spree::Config[:address_requires_state]}"} %>
+                            </td>
+
+                            <% if Spree::Config[:address_requires_state] %>
+                                <td>
+                                    <%= content_tag :span, '', class: 'required', id: 'bstate-select' %>
+
+                                    <% have_states = @address.country.present? and @address.country.states.any? %>
+                                    <% country_states = have_states ? @address.country.states : [] %>
+                                    <% state_elements = [
+                                            address_form.input(:state_id, as: :select, label: "<span style='#{'display:none' unless have_states}'>State</span>", collection: country_states, disabled: !have_states, input_html: {class: 'form-control', style: "margin-bottom: 0; #{'display:none' unless have_states}"}) +
+                                            address_form.input(:state_name, as: :string, label: "<span style='#{'display:none' if have_states}'>State name</span>", disabled: have_states, input_html: {class: 'form-control', style: ('display:none' if have_states)})
+                                        ].join.gsub('"', "'").gsub("\n", "")
+                                    %>
+                                    <%= content_for :javascript do %>
+                                        <script type='text/javascript'>
+                                            $('#bstate-select').append("<%== state_elements %>");
+                                        </script>
+                                    <% end %>
+                                    <noscript>
+                                        <%= address_form.input :state_name, input_html: {class: 'form-control'} %>
+                                    </noscript>
+                                </td>
+                            <% end %>
+                        </tr>
+
+                        <tr>
+                            <td>
+                                <%= address_form.input :zipcode, input_html: {class: 'form-control'} %>
+                            </td>
+
+                            <td>
+                                <%= address_form.association :country, as: :select, collection: available_countries, input_html: {class: 'form-control'} %>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            <% end %>
+
+            <div class='vsap'></div>
+
+            <div class='row wellcome'>
+                <%= f.input :verify_18_years, label: 'I verify, I am 18 years old or older.', required: true, input_html: {class: 'form-control'} %>
+            </div>
+
+            <div class='bdrb disply-none'></div>
+            <div class='vsap'></div>
+
+            <%= f.button :submit, 'SAVE', class: 'btn-ex-large btn-blue' %>
+        <% end %>
+    </div>
+
+    <div class='col2 disply-none'>
+        <div class='ads ads-side'>
+            <h3>Ads Section</h3>
+        </div>
+    </div>
+</div>

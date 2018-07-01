@@ -1,0 +1,14 @@
+ <ul class='nav '>
+    <li class='dropdown'>
+        <a data-toggle='dropdown' class='dropdown-toggle' href='#'>Brand <b class='caret'></b></a>
+        <ul id='select-brand' class='dropdown-menu'>
+            <% if @brands.present? and @brands.any? %>
+                <% @brands.each do |brand| %>
+                    <li><%= link_to image_tag(brand.image_url, class: 'brand', alt: brand.name), brand.url %></li>
+				<% end %>
+			<% else %>
+			  <li><span>No brands found</span></li>
+	    	<% end %>
+        </ul>
+    </li>
+</ul>

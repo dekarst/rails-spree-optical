@@ -1,0 +1,177 @@
+<% variant = line_item.variant -%>
+<%= order_form.simple_fields_for :line_items, line_item do |item_form| -%>
+    <% if line_item.quantity.to_i > 0 %>
+        <div class='row details-contant contant_bg line-item'>
+            <div class='col-mbl-12 col-tb-2 col2'>
+                <div class='Quentity cntr'>
+                    <div class='vsap2'></div>
+
+                    <div data-hook='cart_item_quantity'>
+                        <%= item_form.input :quantity, as: :integer, label: false, input_html: {class: 'line_item_quantity', size: 5} %>
+                    </div>
+                    <br />
+                    <div class='vsap2'></div>
+
+                    <%= button_tag class: 'btn-small', style: 'padding-bottom:5px !important;', id: 'update-button' do %>
+                        <%= Spree.t(:update) %>
+                    <% end %>
+
+                    <div class='vsap'></div>
+
+                    <td class="cart-item-delete" data-hook="cart_item_delete">
+                        <%= link_to 'Remove', '#', class: 'delete', id: "delete_#{dom_id(line_item)}" %>
+                    </td>
+                </div>
+            </div>
+
+            <div id='cart-main-td' class='col-tb-10 col7 bdrr bdrl'>
+                <div class='row'>
+                    <div class='col6 col-mbl-12 bdrr product cntr' data-hook='cart_item_image'>
+                        <div class='vsap'></div>
+
+                        <% if variant.images.length == 0 %>
+                            <%= link_to small_image(variant.product), variant.product %>
+                        <% else %>
+                            <%= link_to image_tag(variant.images.first.attachment.url(:small)), variant.product %>
+                        <% end %>
+                        <br />
+                    </div>
+                    <div class='col6 col-mbl-12'>
+                        <div class='descrip'>
+                            <div class='vsap'></div>
+
+                            <h5><%= link_to line_item.name, product_path(variant.product) %></h5>
+
+                            <% variant.option_values.joins(:option_type).order("#{Spree::OptionType.table_name}.position asc").each do |option_value| %>
+                                <p><%= option_value.option_type.presentation %>:</p>
+                                <span><%= option_value.presentation %></span><br />
+                            <% end %>
+                        </div>
+                    </div>
+                </div>
+
+                <div class='vsap'></div>
+                <div class='vsap'></div>
+
+                <% if line_item.is_a?(FrameLineItem) or line_item.is_a?(ContactLensLineItem) %>
+                    <div class='row'>
+                        <div class='midform '>
+                            <h6 class='prescription-title'>Prescription</h6>
+                            <% if line_item.prescription.present? and line_item.prescription.checked_eyes.any? %>
+                                <%= link_to 'Edit', spree.select_prescription_orders_path(line_item_id: line_item.id) %>
+                            <% else %>
+                                <%= link_to 'Add', spree.select_prescription_orders_path(line_item_id: line_item.id) %>
+                            <% end %>
+
+                            <% if line_item.prescription.present? and line_item.prescription.checked_eyes.any? %>
+                                <table class='table table-bordered'>
+                                    <thead>
+                                        <tr>
+                                            <th></th>
+                                            <% line_item.prescription_options_to_display.each do |option| %>
+                                                <th><%= option.name %></th>
+                                            <% end %>
+                                            <% if line_item.is_a?(ContactLensLineItem) %>
+                                                <th>Qty</th>
+                                            <% end %>
+                                        </tr>
+                                    </thead>
+
+                                    <tbody>
+                                        <% line_item.prescription.checked_eyes.each do |eye| %>
+                                            <tr>
+                                                <td><strong><%= eye.pretty_name %></strong></td>
+
+                                                <% line_item.prescription_options_to_display.each do |option| %>
+                                                    <td><%= eye.value_name_for(option.id) %></td>
+                                                <% end %>
+
+                                                <% if line_item.is_a?(ContactLensLineItem) %>
+                                                    <td><%= eye.quantity %></td>
+                                                <% end %>
+                                            </tr>
+                                        <% end %>
+                                    </tbody>
+                                </table>
+
+                                <% if line_item.prescription.scanned_document.present? %>
+                                    <div class='prescription-document'>
+                                        <%= line_item.prescription.scanned_document.file.filename %>
+                                    </div>
+                                <% end %>
+
+                                <% unless line_item.prescription.observation.blank? %>
+                                    <div class='prescription-observation'>
+                                        <%= line_item.prescription.observation %>
+                                    </div>
+                                <% end %>
+                            <% end %>
+                        </div>
+                    </div>
+                <% end %>
+            </div>
+
+            <div class='col-tb-12 col3'>
+                <div class='detail'>
+                    <div class='vsap'></div>
+
+                    <div class='row'>
+                        <div class='col8'>
+                            <p class='p-black p14'><%= line_item.variant.product.class.to_s.gsub(/Spree::/, '') %>:</p><br />
+
+                            <% if line_item.is_a?(FrameLineItem) %>
+                                <% if line_item.lens.present? %>
+                                    <%= content_tag :p, class: 'p-black p14', id: "line-item-addon-lens-#{line_item.lens.id}" do %>
+                                        <%= line_item.lens.full_name %>:
+                                    <% end %>
+                                    <br />
+                                <% end %>
+
+                                <% if line_item.lens_thickness_option.present? %>
+                                    <%= content_tag :p, class: 'p-black p14', id: "line-item-addon-lens-thickness-#{line_item.lens_thickness_option.id}" do %>
+                                        <%= line_item.lens_thickness_option.full_name %>:
+                                    <% end %>
+                                    <br />
+                                <% end %>
+
+                                <% line_item.lens_protection_options.each do |option| %>
+                                    <%= content_tag :p, class: 'p-black p14', id: "line-item-addon-lens-protection-#{option.id}" do %>
+                                        <%= option.full_name %>:
+                                    <% end %>
+                                    <br />
+                                <% end %>
+                            <% end %>
+                        </div>
+
+                        <div class='col4'>
+                            <p class='p-gray p14'><strong><%= line_item.single_money.to_html %></strong></p><br />
+
+                            <% if line_item.is_a?(FrameLineItem) %>
+                                <% if line_item.lens.present? %>
+                                    <%= content_tag :p, class: 'p-gray p14 line-item-add-on', data: {:'add-on-id' => "line-item-addon-lens-#{line_item.lens.id}"} do %>
+                                        <%= line_item.lens.display_price.to_html %>
+                                    <% end %>
+                                    <br />
+                                <% end %>
+
+                                <% if line_item.lens_thickness_option.present? %>
+                                    <%= content_tag :p, class: 'p-gray p14 line-item-add-on', data: {:'add-on-id' => "line-item-addon-lens-thickness-#{line_item.lens_thickness_option.id}"} do %>
+                                        <%= line_item.lens_thickness_option.display_price.to_html %>
+                                    <% end %>
+                                    <br />
+                                <% end %>
+
+                                <% line_item.lens_protection_options.each do |option| %>
+                                    <%= content_tag :p, class: 'p-gray p14 line-item-add-on', data: {:'add-on-id' => "line-item-addon-lens-protection-#{option.id}"} do %>
+                                        <%= option.display_price.to_html %>
+                                    <% end %>
+                                    <br />
+                                <% end %>
+                            <% end %>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <% end -%>
+<% end -%>

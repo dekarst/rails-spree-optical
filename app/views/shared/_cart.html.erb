@@ -1,0 +1,50 @@
+<div class='cart pull-right'>
+    Your cart <%= link_to pluralize(cart_quantity, 'item'), spree.cart_path, class: 'popover-link' %> <span>|</span> <%= link_to "<i class='icon-shopping-cart'></i> <i class='icon-play'></i>".html_safe, spree.cart_path %>
+</div>
+
+<% if @order.present? and @order.line_items_without_non_buyables.any? %>
+    <div id='cart-content'>
+        <ul class='cart-items'>
+            <% @order.line_items_without_non_buyables.each do |line_item| %>
+                <li>
+                    <table>
+                        <tr>
+                            <td rowspan='2' align='center'>
+                                <%= link_to mini_image(line_item.variant, width: 50), spree.product_path(line_item.variant.product) %>
+                            </td>
+                            <td></td>
+
+                            <td class='pull-right'>
+                                <%= link_to line_item.name, spree.product_path(line_item.variant.product)  %>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td >
+                                <span><%= line_item.quantity %>X</span>
+                                <% if line_item.is_a?(FrameLineItem) %>
+                                    <span><%= number_to_currency(line_item.frame_plus_lens_package.money) %></span>
+                                <% else %>
+                                    <span><%= number_to_currency(line_item.price) %></span>
+                                <% end %>
+                            </td>
+                        </tr>
+                    </table>
+                </li>
+            <% end %>
+        </ul>
+        <div class='clear:both'></div>
+
+        <span class='total-cart'>
+            Total : <%= @order.display_total.to_html %>
+        </span>
+
+        <span class='go-to-cart'>
+            <%= link_to 'Go to Cart', spree.cart_path , class: 'btn btn-default btn-xs active' %>
+        </span>
+    </div>
+<% else %>
+    <div id='cart-content' data-hook='empty_cart'>
+        <p class='text-center'><%= Spree.t(:your_cart_is_empty) %></p>
+    </div>
+<% end %>

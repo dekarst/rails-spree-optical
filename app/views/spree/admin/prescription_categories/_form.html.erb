@@ -1,0 +1,9 @@
+<div data-hook='admin_prescription_category_form_fields' class='align-center row'>
+    <div class='alpha'>
+        <%= f.field_container :name do %>
+            <%= f.label :name, Spree.t(:name) %> <span class='required'>*</span><br />
+            <%= f.text_field :name, class: 'fullwidth' %>
+            <%= f.error_message_on :name %>
+        <% end %>
+    </div>
+</div>

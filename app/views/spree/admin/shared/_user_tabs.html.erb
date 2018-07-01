@@ -1,0 +1,13 @@
+<% content_for :sidebar do %>
+    <nav class='menu'>
+        <ul data-hook='admin_user_tabs'>
+            <%= content_tag :li, class: ('active' if current == 'User Info') do %>
+                <%= link_to_with_icon 'icon-edit', Spree.t(:user_info), edit_admin_user_url(@user) %>
+            <% end if can?(:admin, User) %>
+
+            <%= content_tag :li, class: ('active' if current == 'Prescriptions') do %>
+                <%= link_to_with_icon 'icon-picture', Spree.t(:prescriptions), admin_user_prescriptions_url(@user) %>
+            <% end if can?(:admin, User) %>
+        </ul>
+    </nav>
+<% end %>

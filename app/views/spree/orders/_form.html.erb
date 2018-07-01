@@ -1,0 +1,110 @@
+<div class='row'>
+    <div class='col12'>
+        <div class='row details-heading'>
+            <ul>
+                <div class='col-mbl-12 col-tb-2 col2 text-center'>
+                    <li><h5 class='dep-blue'>Quantity</h5></li>
+                </div>
+                <div class='col-tb-10 col7 bdrr bdrl text-center'>
+                    <li><h5 class='dep-blue'>Product image</h5></li>
+                </div>
+                <div class='col-tb-12 col3 text-center'>
+                    <li><h5 class='dep-blue'>Details</h5></li>
+                </div>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div class='row '>
+    <div class='col12'>
+        <div data-hook='inside_cart_form'>
+            <tbody id='line_items' data-hook='cart_items'>
+                <%= render partial: 'line_item', collection: order_form.object.line_items_without_non_buyables, locals: {order_form: order_form} %>
+
+                <div class='row details-contant contant_bg'>
+                    <div class='row'>
+                        <div class='col-tb-10 col7 bdrr bdrl'></div>
+
+                        <div class='col-tb-12 col3' style='float:right;margin-right: 5px;'>
+                            <div class='detail'>
+                                <div class='vsap'></div>
+                                <div class='bdrb'></div>
+                                <div class='vsap'></div>
+
+                                <div class='row'>
+                                    <div class='col8'>
+                                        <p class='p-black p15'><%= Spree.t(:subtotal) %>:</p>
+                                    </div>
+
+                                    <div id='subtotal' class='col4'>
+                                        <big>
+                                            <%= @order.display_total.to_html %>
+                                        </big>
+                                    </div>
+                                </div>
+
+                                <div class='vsap'></div>
+
+                                <div class='row'>
+                                    <div class='col8'>
+                                        <% @order.adjustments.eligible.each do |adjustment| %>
+                                            <p class='p-black p14'><%= adjustment.label %>:</p><br>
+                                        <% end %>
+                                    </div>
+
+                                    <div class='col4'>
+                                        <% @order.adjustments.eligible.each do |adjustment| %>
+                                            <p class='p-gray p14'><%= adjustment.display_amount.to_html %>:</p><br>
+                                        <% end %>
+                                    </div>
+                                </div>
+
+                                <div class='vsap'></div>
+                                <div class='bdrb'></div>
+                                <div class='vsap'></div>
+
+                                <div class='bottom-area positn'>
+                                    <div class='row'>
+                                        <div class='col8'>
+                                            <p class='p-black p15'>Order Total:</p>
+                                        </div>
+
+                                        <div class='col4'>
+                                            <big><%= @order.display_total.to_html %></big>
+                                        </div>
+                                    </div>
+
+                                    <div class='vsap'></div>
+
+                                    <%= button_tag class: 'btn-ex-large btn-blue positn', style: 'padding-bottom:6px !important;', id: 'checkout-link', name: 'checkout' do %>
+                                        <i class='icon-check'></i>
+                                        <%= Spree.t(:checkout) %>
+                                    <% end %>
+
+                                    <br />
+                                    <div class='vsap'></div>
+
+                                    <%= image_tag '/images/mark.png' %>
+                                    <p>Price-Match Guarntee</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id='empty-cart' class='pull-left'>
+                            <div class='vsap'></div>
+
+                            <div data-hook='cart_buttons'>
+                                <%= order_form.text_field :coupon_code, size: 20, placeholder: Spree.t(:coupon_code) %>
+
+                                <%= button_tag class: 'btn-large btn-blue positn', id: 'update-button' do %>
+                                    <%= Spree.t(:update) %>
+                                <% end %>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </tbody>
+        </div>
+    </div>
+</div>

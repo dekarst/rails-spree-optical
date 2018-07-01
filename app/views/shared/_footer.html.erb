@@ -1,0 +1,24 @@
+<center>
+    <%= link_to 'javascript:void(0)', class: 'btn btn-default pullup' do %>
+        <span class='icon-long-arrow-down icon-long-arrow-up'></span>
+    <% end %>
+</center>
+
+<div class='footer-links'>
+    <div class='container'>
+        <%= raw @footer_page_content if @footer_page_content.present? %>
+    </div>
+</div>
+
+<div class='bottom-content'>
+    <div class='container'>
+        <%# TODO restore this %>
+        <%#= footer_menu %>
+    </div>
+</div>
+
+<div class='footer'>
+    <div class='container'>
+        <%= raw @copyright_page_content if @copyright_page_content.present? %>
+    </div>
+</div>

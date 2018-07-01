@@ -1,0 +1,134 @@
+<% @product_has_colors = @product.is_a?(Frame) && @product.colors.any? %>
+
+<%= form_for :order, url: populate_orders_path do |f| %>
+    <div id='inside-product-cart-form' data-hook='inside_product_cart_form' itemprop='offers' itemscope itemtype='http://schema.org/Offer'>
+        <p class='collect'>Your Order</p><br />
+
+        <% if @product_has_colors %>
+            <div id='variants-container' class='progressive cntr'>
+                <% @product.colors.each do |color| %>
+                    <table data-color="<%= color.id %>" style='display:none'>
+                        <tr class='bg-white'>
+                            <td></td>
+                            <% @product.all_option_types.each do |option_type| %>
+                                <td>
+                                    <p class='p-black p-bold'>
+                                        <%= option_type.presentation %>
+                                    </p>
+                                </td>
+                            <% end %>
+                        </tr>
+
+                        <% color.variants.each do |variant| %>
+                            <tr id='product-variants' data-variant="<%= variant.id %>">
+                                <td>
+                                    <%= radio_button_tag "products[#{@product.id}]", variant.id, false, :'data-price' => variant.price_in(current_currency).display_price, disabled: !variant.in_stock? %>
+                                </td>
+                                <% @product.all_option_types.each do |option_type| %>
+                                    <td>
+                                        <p><%= variant.option_value(option_type.name) || '-' %></p>
+                                    </td>
+                                <% end %>
+
+                                <% if not variant.in_stock? %>
+                                    <td><p>(out of stock)</p></td>
+                                <% end %>
+                            </tr>
+                        <% end %>
+                    </table>
+                <% end %>
+            </div>
+
+            <div class='vsap'></div>
+
+            <div class='note'>
+                <p>Note: Other color may have more size option</p>
+            </div>
+        <% else %>
+            <% if @product.variants_and_option_values(current_currency).any? %>
+              <div id="product-variants" class="columns five alpha">
+                <h6 class="product-section-title"><%= Spree.t(:variants) %></h6>
+                <ul>
+                  <% @product.variants_and_option_values(current_currency).each_with_index do |variant, index| %>
+                    <li>
+                      <%= radio_button_tag "products[#{@product.id}]", variant.id, index == 0, 'data-price' => variant.price_in(current_currency).display_price %>
+                      <label for="<%= ['products', @product.id, variant.id].join('_') %>">
+                        <span class="variant-description">
+                          <%= variant_options variant %>
+                        </span>
+                        <% if variant_price variant %>
+                          <span class="price diff"><%= variant_price variant %></span>
+                        <% end %>
+                      </label>
+                    </li>
+                  <% end%>
+                </ul>
+              </div>
+            <% end%>
+        <% end %>
+
+        <div class='vsap'></div>
+
+        <% if @product.price_in(current_currency) and !@product.price.nil? %>
+            <div data-hook='product_price' class="row columns five <% if !@product.has_variants? %> alpha <% else %> omega <% end %>">
+                <div class='col5'>
+                    <div class='add-to-cart'>
+                        <%= hidden_field_tag (@product.variants_and_option_values.any? ? :quantity : "variants[#{@product.master.id}]"), 1 %>
+                        <%#= number_field_tag (@product.variants_and_option_values.any? ? :quantity : "variants[#{@product.master.id}]"), 1, class: 'title', min: 1 %>
+                        <%#= button_tag class: 'large primary', id: 'add-to-cart-button', type: :submit do %>
+                        <%#= Spree.t(:add_to_cart) %>
+                        <%# end %>
+
+                        <div class='row buttons'>
+                            <div class='col12 col-tb-12 col-mbl-12'>
+                                <% if @product.is_a?(Frame) %>
+                                    <% if @product.lens_required? %>
+                                        <%= button_tag 'CHECK OUT', id: 'add-to-cart-button', class: 'getstarted-btn', disabled: @product_has_colors, type: :submit %>
+                                    <% else %>
+                                        <%= button_tag 'CHECK OUT', id: 'add-to-cart-button', class: 'getstarted-btn', disabled: @product_has_colors, type: :submit %>
+                                        <div class='vsap'></div>
+                                        <%= button_tag 'Check Out Without Lenses', id: 'add-to-cart-button-no-lens', name: 'checkout-without-lenses', disabled: @product_has_colors, type: :submit %>
+                                    <% end %>
+                                <% else %>
+                                    <%= button_tag 'CHECK OUT', id: 'add-to-cart-button', class: 'getstarted-btn', disabled: @product_has_colors, type: :submit %>
+                                <% end %>
+
+                                <div class='vsap'></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class='col6'>
+                    <% if @product_has_colors %>
+                        <div id='select-a-product'>
+                            <span class='p-bold p-red'>Select a product above.</span>
+                        </div>
+                    <% end %>
+
+                    <div id='product-price' class='p-blue p-bold' style='display:none'>
+                        <span class='price selling' itemprop='price'>
+                            <%= display_price(@product.master) %>
+                        </span>
+                        <span itemprop='priceCurrency' content="<%= @product.currency %>"></span>
+
+                        <% if @product.master.in_stock? %>
+                            <link itemprop='availability' href='http://schema.org/InStock' />
+                        <% end %>
+                    </div>
+                </div>
+            </div>
+        <% else %>
+            <div id='product-price' class='p-red p-bold not-available'>
+                <span class='not-available'><%= Spree.t('product_not_available_in_this_currency') %></span>
+                <div class='vsap'></div>
+            </div>
+        <% end %>
+
+        <div class='row'>
+            <div class='col12 col-tb-12 col-mbl-12' id='wishlist_container'>
+                <%= render partial: 'wishlist' %>
+            </div>
+        </div>
+    </div>
+<% end %>

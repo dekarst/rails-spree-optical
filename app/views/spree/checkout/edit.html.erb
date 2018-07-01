@@ -1,0 +1,50 @@
+<div id='checkout' data-hook>
+    <%#= render partial: 'spree/shared/error_messages', locals: {target: @order} %>
+
+    <div class='row checkout-header' data-hook='checkout_header'>
+        <div class='container'>
+            <h1 class='columns three alpha pull-left' data-hook='checkout_title'><%= Spree.t(:checkout) %></h1>
+            <div class='columns thirteen omega pull-left' data-hook='checkout_progress'><%= checkout_progress %></div>
+        </div>
+    </div>
+
+    <% if @order.state != 'confirm' %>
+        <div id='checkout-summary' data-hook='checkout_summary_box' class='columns omega four'>
+            <%= render partial: 'summary', locals: {order: @order} %>
+        </div>
+    <% end %>
+
+    <div class='container'>
+        <div class='row' data-hook='checkout_content'>
+            <div class="columns <%= if @order.state != 'confirm' then 'alpha twelve' else 'alpha omega sixteen' end %>" data-hook='checkout_form_wrapper'>
+                <%= simple_form_for @order, url: update_checkout_path(@order.state), html: {id: "checkout_form_#{@order.state}"} do |form| %>
+                    <% if form.object.errors.any? %>
+                        <div class='row'>
+                            <div class='col-md-8 col-md-push-2'>
+                                <%= form.error_notification %>
+                            </div>
+                        </div>
+                    <% end %>
+
+                    <% unless @order.email? %>
+                        <p class='field' style='clear: both'>
+                            <%= form.input :email %>
+                        </p>
+                    <% end %>
+
+                    <%= render @order.state, form: form %>
+                <% end %>
+            </div>
+        </div>
+    </div>
+</div>
+
+<% if I18n.locale != :en %>
+    <script src="/assets/jquery.validate/localization/messages_<%= I18n.locale %>.js"></script>
+<% end %>
+
+<%= content_for :javascript do %>
+    <script type='text/javascript'>
+        configure_checkout_summary();
+    </script>
+<% end %>

@@ -1,0 +1,14 @@
+<%= render partial: 'spree/admin/shared/product_sub_menu' %>
+<%= render partial: 'spree/admin/shared/product_types_sub_menu' %>
+<%= render partial: 'spree/admin/shared/options_tabs', locals: {current: 'Options'} %>
+<%= render partial: 'spree/shared/error_messages', locals: {target: @lens_thickness_option} %>
+
+<%= form_for [:admin, @lens_thickness, @lens_thickness_option], url: admin_lens_thickness_lens_thickness_option_path(@lens_thickness.id, @lens_thickness_option.id) do |f| %>
+    <fieldset class='no-border-top'>
+        <div data-hook='admin_lens_thickness_option_edit_form'>
+            <%= render partial: 'form', locals: {f: f} %>
+        </div>
+
+        <%= render partial: 'spree/admin/shared/edit_resource_links' %>
+    </fieldset>
+<% end %>

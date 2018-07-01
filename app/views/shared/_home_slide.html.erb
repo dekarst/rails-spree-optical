@@ -1,0 +1,56 @@
+<div class='container'>
+    <div id='slider' class='carousel slider' data-ride='carousel'>
+        <ol class='carousel-indicators'>
+            <% 5.times.each_with_index do |i| %>
+                <li data-target='#slider' data-slide-to='<%= i %>' <%= "class='active'" if i == 0 %>></li>
+            <% end %>
+        </ol>
+
+        <div class='carousel-inner'>
+            <% 5.times.each_with_index do |i| %>
+                <div class='item <%= 'active' if i == 0 %>'>
+                    <%= image_tag '/images/slider/woman.png', class: 'woman' %>
+                    <%= image_tag '/images/slider/man.png', class: 'man' %>
+
+                    <span class='woman-text'>
+                        <span class='h1 text-info'>WOMEN</span>
+                        <div class='tran-box'>
+                            <div class='innerwrap'>
+                                <div class='pull-left'>
+                                    <h3>from $59 <sup>99</sup></h3>
+                                </div>
+                                <div class='pull-right'>
+                                    <div style='height:10px'></div>
+                                    <%= link_to 'SHOP NOW', '#', class: 'btn btn-primary' %>
+                                </div>
+                            </div>
+                        </div>
+
+                        <h4>Burberry Oversized Round Sunglasses</h4>
+                    </span>
+
+                    <span class='man-text'>
+                        <span class='h1 text-info pull-right'>MEN</span>
+                        <div class='tran-box cl'>
+                            <div class='innerwrap'>
+                                <div class='pull-left'><h3>from $49 <sup>99</sup></h3></div>
+                                <div class='pull-right'>
+                                    <div style='height:10px'></div>
+                                    <%= link_to 'SHOP NOW', '#', class: 'btn btn-primary' %>
+                                </div>
+                            </div>
+                        </div>
+
+                        <h4>Halogen Retro Inspired Reading Glasses</h4>
+                    </span>
+                </div>
+            <% end %>
+        </div>
+    </div>
+</div>
+
+<%= content_for :javascript do %>
+    <script type="text/javascript">
+        configure_slider();
+    </script>
+<% end %>

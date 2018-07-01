@@ -1,0 +1,2 @@
+class LensProtectionOptionLineItem < NonBuyableLineItem
+end

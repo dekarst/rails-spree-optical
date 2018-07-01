@@ -1,0 +1,47 @@
+<%= render partial: 'spree/admin/shared/product_sub_menu' %>
+
+<% content_for :page_title do %>
+    <%= Spree.t(:editing_prescription_item) %> <span class='green'>"<%= @prescription_item.name %>"</span>
+<% end %>
+
+<% content_for :page_actions do %>
+    <li>
+        <span id='new_add_prescription_value' data-hook>
+            <%= link_to_add_fields Spree.t(:add_prescription_value), "tbody#prescription_values", class: 'button icon-plus' %>
+        </span>
+    </li>
+    <li><%= button_link_to Spree.t(:back_prescription_category), edit_admin_prescription_category_url(@prescription_item.prescription_category), icon: 'icon-arrow-left'%></li>
+<% end %>
+
+<%= render partial: 'spree/shared/error_messages', locals: {target: @prescription_item} %>
+
+<%= form_for [:admin, @prescription_item] do |f| %>
+    <%= render partial: 'form', locals: {f: f} %>
+
+    <fieldset>
+        <legend align='center'><%= Spree.t(:prescription_values) %></legend>
+
+        <table class='index sortable' data-hook data-sortable-link="<%= update_values_positions_admin_prescription_items_url %>">
+            <thead data-hook='option_header'>
+                <tr>
+                    <th colspan='2'><%= Spree.t(:name) %></th>
+                    <th class='actions'></th>
+                </tr>
+            </thead>
+            <tbody id='prescription_values'>
+                <% if @prescription_item.prescription_values.empty? %>
+                    <tr id='none' data-hook='option_none' class="<%= cycle('odd', 'even')%>">
+                        <td><%= Spree.t(:none) %></td>
+                        <td class='actions'></td>
+                    </tr>
+                <% else %>
+                    <%= f.fields_for :prescription_values do |prescription_value_form| %>
+                        <%= render partial: 'prescription_value_fields', locals: {f: prescription_value_form} %>
+                    <% end %>
+                <% end %>
+            </tbody>
+        </table>
+
+        <%= render partial: 'spree/admin/shared/edit_resource_links' %>
+    </fieldset>
+<% end %>

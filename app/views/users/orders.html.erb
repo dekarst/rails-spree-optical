@@ -1,0 +1,18 @@
+<%= render 'sidebar' %>
+
+<div class='container'>
+    <h3 class='light-blue'>My Orders</h3>
+
+    <div class='bdrb disply-none'></div>
+    <div class='vsap'></div>
+
+    <% if current_user.orders.complete.any? %>
+        <ul>
+            <% current_user.orders.complete.each do |order| %>
+                <li><%= link_to order.number, spree.order_path(order) %></li>
+            <% end %>
+        </ul>
+    <% else %>
+        <p>No order found.</p>
+    <% end %>
+</div>

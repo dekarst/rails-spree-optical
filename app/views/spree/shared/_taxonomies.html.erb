@@ -1,0 +1,44 @@
+<%= form_tag '', method: :get, id: 'sidebar_products_search' do %>
+    <%= hidden_field nil, :keywords, value: params[:keywords] %>
+
+    <h3 class='light-blue search-heading'>quick search</h3>
+
+    <div class='vsap2'></div>
+
+    <%# TODO restore this %>
+    <%# get_taxonomies.each_with_index do |taxonomy, i| %>
+    <% [].each_with_index do |taxonomy, i| %>
+        <div class='accordion-filters'>
+            <div class='vsap2'></div>
+            <div class='accord-head'>
+                <%= link_to "#{taxonomy.name}<span class='pull-right'>open</span>".html_safe, "#collapse_#{i}", class: 'p-black p11', data: {toggle: 'collapse'} %>
+            </div>
+
+            <%= content_tag :div, id: "collapse_#{i}", class: 'collapse row' do %>
+                <div class='vsap3'></div>
+
+                <ul>
+                    <% taxonomy.root.children.each do |taxon| %>
+                        <% scope = "any_taxon_#{taxonomy.name.downcase}" %>
+                        <% label = "#{taxonomy.name}_#{taxon.name}".gsub(/\s+/, '_') %>
+                        <li class='col6'>
+                            <div class='roundedOne'>
+                                <% if false %>
+                                <input type='checkbox' id="<%= label %>" name="taxons[]" value="<%= taxon.id %>" <%= params[:taxons].present? and params[:taxons].include?(taxon.id.to_s) ? 'checked' : '' %> />
+                                <% end %>
+                                <input type='checkbox' id="<%= label %>" name="search[<%= scope %>][]" value="<%= taxon.id %>" <%= params[:search] && params[:search][scope] && params[:search][scope].include?(taxon.id.to_s) ? 'checked' : '' %> />
+                                <label for="<%= label %>"></label>
+                            </div>
+                            <p><%= taxon.name %></p>
+                        </li>
+                    <% end %>
+                </ul>
+                <div class='vsap'></div>
+            <% end %>
+        </div>
+    <% end %>
+
+    <div class='vsap'></div>
+
+    <%= submit_tag 'SEARCH', class: 'search-btn light-blue accordion-search' %>
+<% end %>

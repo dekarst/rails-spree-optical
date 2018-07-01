@@ -1,0 +1,18 @@
+<%= render partial: 'spree/admin/shared/product_sub_menu' %>
+
+<%= render partial: 'spree/admin/shared/product_tabs', locals: {current: 'Limitations'} %>
+<%= render partial: 'spree/shared/error_messages', locals: {target: @product} %>
+
+<%= simple_form_for [:admin, @product], as: :product, method: :put, html: {multipart: true} do |f| %>
+    <%= f.simple_fields_for :limitations do |limitations_form| %>
+        <fieldset>
+            <legend><%= limitations_form.object.item.name %></legend>
+
+                <%= limitations_form.input :min, wrapper: false, label: false, placeholder: 'Min', input_html: {class: 'two columns'} %>
+                <div class='one column'>-</div>
+                <%= limitations_form.input :max, wrapper: false, label: false, placeholder: 'Max', input_html: {class: 'two columns'} %>
+        </fieldset>
+    <% end %>
+
+    <%= f.submit %>
+<% end %>

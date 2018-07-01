@@ -1,0 +1,12 @@
+<%= render partial: 'spree/admin/shared/user_tabs', locals: {current: 'Prescriptions'} %>
+<%= render partial: 'spree/shared/error_messages', locals: {target: @prescription} %>
+
+<%= form_for [:admin, @user, @prescription] do |f| %>
+    <fieldset class='no-border-top'>
+        <div data-hook='admin_prescription_edit_form'>
+            <%= render partial: 'form', locals: {f: f} %>
+        </div>
+
+        <%= render partial: 'spree/admin/shared/edit_resource_links' %>
+    </fieldset>
+<% end %>

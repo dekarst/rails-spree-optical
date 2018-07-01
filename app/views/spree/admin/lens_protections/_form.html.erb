@@ -1,0 +1,28 @@
+<div data-hook='admin_lens_protection_form' class='align-center row'>
+    <div class='alpha eight columns'>
+        <%= f.field_container :name do %>
+            <%= f.label :name, Spree.t(:name) %> <span class='required'>*</span><br />
+            <%= f.text_field :name, class: 'fullwidth' %>
+            <%= f.error_message_on :name %>
+        <% end %>
+    </div>
+
+    <div class='eight columns'>
+        <% if @lens_protection.image? %>
+            <div class='align-center field checkbox'>
+                <%= f.label Spree.t(:image) %><br>
+                <%= image_tag(@lens_protection.image_url) %>
+
+                <label>
+                    <%= f.check_box :remove_image %> Remove Image
+                </label>
+            </div>
+        <% end %>
+
+        <%= f.field_container :image do %>
+            <%= f.label :image, Spree.t(:image) %> <span class='required'>*</span><br />
+            <%= f.file_field :image, class: 'fullwidth' %>
+            <%= f.error_message_on :image %>
+        <% end %>
+    </div>
+</div>

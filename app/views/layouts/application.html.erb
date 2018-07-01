@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=Edge,chrome=1'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+    <title><%= title %></title>
+    <%= csrf_meta_tags %>
+
+    <%= stylesheet_link_tag 'application', media: 'all' %>
+    <%= javascript_include_tag 'application' %>
+
+    <%= head %>
+</head>
+
+<body class='<%= @body_class %>' id='<%= @body_id || "default" %>' data-hook='body'>
+    <div class='vsap'></div>
+
+    <%= header %>
+
+    <div class='vsap'></div>
+
+    <%= menu %>
+
+    <div id='flash-container'>
+        <%= bootstrap_flash %>
+    </div>
+
+    <%= breadcrumb %>
+
+    <div class='contant_area'>
+        <div class='vsap'></div>
+
+        <% if content_for?(:sidebar) %>
+            <div class='container row comonp'>
+                <div class='col3 col-tb-5 col-mbl-12'>
+                    <%= yield :sidebar %>
+                </div>
+
+                <div class='col9 col-tb-7 col-mbl-12'>
+                    <%= yield %>
+                </div>
+            </div>
+        <% else %>
+            <%= yield %>
+        <% end %>
+    </div>
+
+    <%= footer %>
+
+    <%= yield :javascript %>
+</body>
+</html>

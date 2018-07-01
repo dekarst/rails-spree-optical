@@ -1,0 +1,103 @@
+<div class='row'>
+    <div class='col4'>
+        <div class='vsap2'></div>
+        <div class='vsap2'></div>
+        <div class='vsap2'></div>
+        <div class='vsap2'></div>
+
+        <div class='row'>
+            <div class='col12 img-border product-details-image-container'>
+                <%= image_tag '/images/labels/details.png', class: 'absolut glases' %>
+
+                <% if defined?(image) && image %>
+                    <%= image_tag image.attachment.url(:details), class: 'img-w' %>
+                <% else %>
+                    <%= details_image @product, class: 'img-w' %>
+                <% end %>
+            </div>
+        </div>
+    </div>
+
+    <% if @product_properties.any? %>
+        <div class='col4 col-tb-4 col-mbl-12'>
+            <div class='vsap2'></div>
+            <div class='vsap2'></div>
+            <div class='vsap2'></div>
+
+            <div class='single-features'>
+                <p class='p-bold p-black'>FRAME DETAILS</p><br>
+
+                <% @product_properties.each do |product_property| %>
+                    <p><%= product_property.property.presentation %>:</p>
+                    <p class='p-bold p-blue'><%= product_property.value %></p><br>
+                <% end %>
+            </div>
+
+            <div class='vsap'></div>
+        </div>
+    <% end %>
+
+    <% if @product.is_a?(Frame) %>
+        <% if @product.shapes.any? %>
+            <div class='col4 col-tb-4 col-mbl-12'>
+                <div class='single-features'>
+                    <div class='vsap2'></div>
+                    <div class='vsap2'></div>
+                    <div class='vsap2'></div>
+
+                    <p class='p-bold p-black'>IDEAL FACE SHAPES</p><br>
+                    <p>CERTAIN FRAME FIT CERTAIN FACE SHAPES BETTER</p><br>
+
+                    <div class='vsap'></div>
+
+                    <div class='row'>
+                        <% @product.shapes.each do |shape| %>
+                            <div class='col6'>
+                                <%= image_tag shape.image_url %><br>
+                                <p><%= shape.name %></p>
+                            </div>
+                        <% end %>
+                    </div>
+                </div>
+
+                <div class='vsap'></div>
+            </div>
+        <% end %>
+    <% end %>
+</div>
+
+<div class='vsap'></div>
+
+<div class='row' data-hook='product_properties'>
+    <p class='eye'>Key Features</p>
+    <div class='row'>
+        <div class='col4 col-tb-4 col-mbl-12'>
+            <div class='single-features'>
+                <div class='vsap'></div>
+                <div class='vsap'></div>
+
+                <p>PRODUCT ID:</p><p class='p-bold p-blue'><%= @product.id %></p><br>
+                <% if @product.category? %>
+                    <p>PRODUCT TYPE:</p><p class='p-bold p-blue'><%= @product.category %></p><br>
+                <% end %>
+                <% if @product.brand? %>
+                    <p>BRAND:</p><p class='p-bold p-blue'><%= @product.brand %></p><br>
+                <% end %>
+                <% if @product.gender? %>
+                    <p>GENDER:</p><p class='p-bold p-blue'><%= @product.gender %></p><br>
+                <% end %>
+            </div>
+
+            <div class='vsap'></div>
+        </div>
+
+        <div class='col8'>
+            <div class='loves-glass'>
+                <%= insert_banner_box(category: 'product_page', class: 'img-w') %>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class='vsap'></div>
+<div class='vsap'></div>

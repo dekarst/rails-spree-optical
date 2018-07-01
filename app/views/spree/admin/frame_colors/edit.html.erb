@@ -1,0 +1,13 @@
+<%= render partial: 'spree/admin/shared/product_sub_menu' %>
+<%= render partial: 'spree/admin/shared/product_tabs', locals: {current: 'Colors'} %>
+<%= render partial: 'spree/shared/error_messages', locals: {target: @frame_color} %>
+
+<%= form_for [:admin, @product, @frame_color] do |f| %>
+    <fieldset class='no-border-top'>
+        <div data-hook='admin_frame_color_edit_form'>
+            <%= render partial: 'form', locals: {f: f} %>
+        </div>
+
+        <%= render partial: 'spree/admin/shared/edit_resource_links' %>
+    </fieldset>
+<% end %>

@@ -1,0 +1,186 @@
+<div class='container row'>
+    <div class='col3 col-tb-12'>
+        <div class='row controler contant_bg'>
+            <div class='vsap'></div>
+            <h4 class='dep-blue'>My Account</h4>
+
+            <div class='vsap2'></div>
+            <div class='bdrb'></div>
+
+            <ul>
+                <li><%= link_to 'Account Dashboard', '#', class: 'active' %></li>
+                <li><%= link_to 'Address Book', '#', class: 'active' %></li>
+                <li><%= link_to 'My Orders', '#', class: 'active' %></li>
+                <li><%= link_to 'Billing Agreements', '#', class: 'active' %></li>
+                <li><%= link_to 'Recurring Profiles', '#', class: 'active' %></li>
+                <li><%= link_to 'My Product Reviews', '#', class: 'active' %></li>
+                <li><%= link_to 'My Tags', '#', class: 'active' %></li>
+                <li><%= link_to 'My Wishlist', '#', class: 'active' %></li>
+                <li><%= link_to 'My Applications', '#', class: 'active' %></li>
+                <li><%= link_to 'Newsletter Subscriptions', '#', class: 'active' %></li>
+                <li><%= link_to 'My Downloadable Products', '#', class: 'active' %></li>
+            </ul>
+
+            <div class='vsap'></div>
+            <div class='vsap'></div>
+        </div>
+
+        <div class='vsap'></div>
+
+        <div class='row carts'>
+            <div class='row r-box'>
+                <div class='col8'>
+                    <h5 class='dep-blue'>Call Us Toll Free</h5>
+                    <p>(555) 555-321</p>
+                    <small>Mon-Fri 10am-6pm MST</small>
+                </div>
+
+                <div class='col4'>
+                    <%= image_tag '/images/callus.png' %>
+                </div>
+            </div>
+
+            <div class='vsap'></div>
+
+            <div class='row r-box'>
+                <div class='col8'>
+                    <h5 class='dep-blue'>Free Shipping</h5>
+                    <small>On all orders over 100$T</small>
+                </div>
+
+                <div class='col4'>
+                    <%= image_tag '/images/sms.png' %>
+                </div>
+            </div>
+
+            <div class='vsap'></div>
+
+            <div class='s-box'>
+                <h4 class='dep-blue'>My Cart</h4>
+
+                <div class='vsap2'></div>
+                <div class='bdrb'></div>
+
+                <p>You have no items in your shopping cart.</p>
+            </div>
+
+            <div class='vsap'></div>
+
+            <div class='s-box'>
+                <h4 class='dep-blue'>Compare products</h4>
+
+                <div class='vsap2'></div>
+                <div class='bdrb'></div>
+
+                <p>You have no items to compair.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class='col7 col-tb-12'>
+        <div class='contant_bg prescript'>
+            <div class='vsap'></div>
+            <h4 class='dep-blue'>My Prescriptions</h4>
+
+            <div class='vsap2'></div>
+            <div class='bdrb'></div>
+            <div class='vsap'></div>
+
+            <input type='radio'><p>Yes, I hve it and would like to enter it now.</p>
+
+            <div class='vsap'></div>
+
+            <div class='midform'>
+                <div class='vsap'></div>
+
+                <div class='row'>
+                    <div class='col3'>
+                        <div class='vsap'></div>
+
+                        <input type='checkbox'><strong>Right Eye (OD)</strong><br>
+                        <input type='checkbox'><strong>Left Eye (OS)</strong>
+                    </div>
+
+                    <div class='col2'>
+                        <span>Power</span><br>
+
+                        <select name='' id=''></select><br>
+                        <select name='' id=''></select>
+                    </div>
+
+                    <div class='col1'>
+                        <span>BC</span><br>
+
+                        <p>8.6</p><br>
+                        <p>8.6</p>
+                    </div>
+
+                    <div class='col1'>
+                        <span>DIA </span><br>
+
+                        <p>14.5</p><br>
+                        <p>14.5</p><br>
+                    </div>
+
+                    <div class='col2'>
+                        <span>CYL</span><br>
+
+                        <select name='' id=''></select><br>
+                        <select name='' id=''></select>
+                    </div>
+
+                    <div class='col2'>
+                        <span>Axis</span><br>
+
+                        <select name='' id=''></select><br>
+                        <select name='' id=''></select>
+                    </div>
+
+                    <div class='col1'>
+                        <span>Boxes</span><br>
+
+                        <select name='' id=''></select><br>
+                        <select name='' id=''></select>
+                    </div>
+                </div>
+            </div>
+
+            <div class='vsap2'></div>
+
+            <div class='bottomtext'>
+                <p>I have more than one PD number:</p>
+                <input type='checkbox'>
+                <%= link_to '(What is this?)', '#' %><br>
+
+
+                <input type='checkbox'>
+                <p>I don'have my PD (Pupillary Distance) number</p>
+                <%= link_to '(What is PD?)', '#' %><br>
+
+                <%= link_to 'How do i find my PD?', '#' %>
+                <%= link_to 'Let us measure your PF!', '#' %>
+            </div>
+
+            <div class='vsap'></div>
+            <div class='vsap'></div>
+            <div class='vsap'></div>
+        </div>
+
+        <div class='another contant_bg cntr'>
+            <input type='checkbox'><h4 class='dep-blue'>ADD ANOTHER PRESCRIPTION </h4>
+        </div>
+
+        <div class='vsap'></div>
+
+        <%= link_to 'SAVE', '#', class: 'btn-ex-large btn-blue pull-right' %>
+
+        <div class='vsap'></div>
+        <div class='vsap'></div>
+    </div>
+
+    <div class='col2 col-tb-12 disply-none'>
+        <div class='ads ads-side'>
+            <h3>Ads Section</h3>
+        </div>
+    </div>
+</div>

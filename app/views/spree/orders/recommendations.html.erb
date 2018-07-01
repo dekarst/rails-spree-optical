@@ -1,0 +1,60 @@
+<%= form_for @line_item, url: spree.add_recommendations_orders_path do |f| %>
+    <div class='container row comonp'>
+        <div class='col-tb-12 col-mbl-12 col12'>
+            <div class='contant_bg addtocart'>
+                <div class='vsap2'></div>
+                <h4 class='dep-blue'>See what we recommend for you:</h4>
+
+                <div class='vsap'></div>
+
+                <div class='row'>
+                    <% @recommended_products.each do |recommended_product| %>
+                        <div class='col3 col-tb-6 col-mbl-12'>
+                            <div class='single_lense lens-thickness cntr'>
+                                <div class='lense-img'>
+                                    <%= small_image(recommended_product) %>
+                                </div>
+
+                                <div class='vsap2'></div>
+
+                                <p class='p-black p14'><%= recommended_product.name %></p><br>
+                                <p class='price p-blue'><%= recommended_product.display_price.to_html %></p>
+
+                                <div class='vsap2'></div>
+                                <label class='alert alert-success'>
+                                    <%= check_box :recommended_product, :buy_together, {multiple: true}, recommended_product.id, nil %>
+                                    Buy together
+                                </label>
+                                <div class='vsap2'></div>
+                            </div>
+                        </div>
+                    <% end %>
+                </div>
+
+                <div class='vsap2'></div>
+                <div class='vsap2'></div>
+
+                <div class='text-center'>
+                    <%= f.submit 'Continue', class: 'btn-ex-large btn-blue' %>
+                </div>
+            </div>
+        </div>
+    </div>
+<% end %>
+
+<div class='vsap'></div>
+<div class='vsap'></div>
+
+<div class='container row'>
+    <div class='col8 disply-none'>
+        <div class='ads ads-bottom'>
+            <%= insert_banner_box(category: 'bottom', class: 'img-w') %>
+        </div>
+    </div>
+
+    <div class='col4 col-tb-12 col-mbl-12'>
+        <div class='warranty comonp'>
+            <%= raw @warranty_page_content if @warranty_page_content.present? %>
+        </div>
+    </div>
+</div>
